@@ -1,34 +1,256 @@
 ---
-import { siteConfig } from "../config/site";
-import rawFixture from "../content/fixture.json";
-import { parseFixture, countChecks } from "../lib/fixture";
+/**
+ * OT-04 — Prototipo wireframe de la interfaz editorial propia de OTERCO.
+ *
+ * Página índice-portal con datos de la proyección pública de OT-02
+ * (etiquetas filtradas, sin NIT/contacto/solar/fotos sin aprobar).
+ * Sin fotografía real (bloques .foto-pendiente deshabilitados,
+ * data-estado="pendienteAP"), sin fonts.css cableado, sin módulos de
+ * contacto ni preparador (OT-07). Todo rotulado FIXTURE, no publicable.
+ * Estática: cero scripts.
+ */
+import { perfilBase } from "../content/perfil.datos";
+import { proyeccionPublica } from "../config/publicacion";
 import "../styles/base.css";
 
-const fixture = parseFixture(rawFixture);
-if (fixture === null) {
-  throw new Error("Fixture OT-01 inválido: revisar src/content/fixture.json");
-}
-const total = countChecks(fixture);
+const publica = proyeccionPublica(perfilBase);
+const beraka = publica.fincas.find((f) => f.id === "beraka");
+const puertaRoja = publica.fincas.find((f) => f.id === "puerta-roja");
 ---
 <!doctype html>
-<html lang={siteConfig.lang}>
+<html lang="es">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content={siteConfig.robots} />
-    <title>{fixture.heading} · {siteConfig.internalName}</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta
+      name="description"
+      content="FIXTURE OT-04 — prototipo editorial no publicable de OTERCO."
+    />
+    <title>OTERCO — Prototipo editorial (fixture, no publicable)</title>
   </head>
   <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <header class="masthead">
+      <div class="contenedor masthead__fila">
+        <a class="marca" href="#contenido" aria-label="OTERCO, inicio del prototipo">
+          OTERCO
+          <span class="marca__sub">Ganadería · Costa Norte · Prototipo OT-04</span>
+        </a>
+        <nav class="indice" aria-label="Índice editorial">
+          <details>
+            <summary class="indice__resumen">Índice</summary>
+            <ul class="indice__lista">
+              <li><a href="#portafolio">Portafolio</a></li>
+              <li><a href="#fincas">Fincas</a></li>
+              <li><a href="#manejo">Manejo</a></li>
+              <li><a href="#infraestructura">Infraestructura</a></li>
+              <li><a href="#cierre">Cierre</a></li>
+            </ul>
+          </details>
+        </nav>
+      </div>
+    </header>
+
     <main id="contenido">
-      <p class="badge">Fixture técnico — no publicable</p>
-      <h1>{fixture.heading}</h1>
-      <p>{fixture.intro}</p>
-      <h2>Comprobaciones ({total})</h2>
-      <ul>
-        {fixture.checks.map((item) => <li>{item}</li>)}
-      </ul>
-      <p><small>Sin JavaScript: esta página no incluye ningún script.</small></p>
+      <!-- Hero tipográfico: titular sobre fondo claro, sin foto. -->
+      <section class="hero" aria-labelledby="titulo">
+        <div class="contenedor">
+          <p class="badge-fixture">Fixture técnico — no publicable</p>
+          <p class="hero__kicker">{publica.region}</p>
+          <h1 id="titulo">{publica.perfil}</h1>
+          <p class="hero__datos">
+            {publica.razonSocial} · Enfoque: {publica.enfoque}
+          </p>
+          <div class="hero__acciones">
+            <a class="boton boton--principal" href="#portafolio">Consultar portafolio</a>
+            <a class="boton boton--secundario" href="#cierre">Cierre editorial</a>
+          </div>
+          <div
+            class="foto-pendiente"
+            data-estado="pendienteAP"
+            role="note"
+            aria-label="Espacio de imagen reservado, pendiente de aprobación"
+          >
+            <strong>Imagen pendiente de aprobación</strong>
+            Espacio reservado para paisaje o pastoreo autorizado (p. ej. O-IMG01).
+            Sin stock, sin IA, sin foto ajena. FIXTURE, no publicable.
+          </div>
+        </div>
+      </section>
+
+      <!-- Oferta al comprador: tres filas editoriales. -->
+      <section class="capitulo" id="portafolio" aria-labelledby="t-portafolio">
+        <div class="contenedor">
+          <p class="capitulo__kicker">Oferta al comprador</p>
+          <h2 id="t-portafolio">Portafolio</h2>
+          {publica.oferta.map((linea) => (
+            <article class="fila-oferta">
+              <p class="fila-oferta__categoria">{linea.categoria}</p>
+              <div>
+                <h3>{linea.titulo}</h3>
+                <p>{linea.descripcion}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- Dos territorios: capítulos asimétricos de finca. -->
+      <section class="capitulo capitulo--alt" id="fincas" aria-labelledby="t-fincas">
+        <div class="contenedor">
+          <p class="capitulo__kicker">Dos territorios</p>
+          <h2 id="t-fincas">Fincas</h2>
+          {beraka && (
+            <article class="territorio" aria-labelledby="t-beraka">
+              <div>
+                <h3 id="t-beraka">{beraka.nombre}</h3>
+                <p class="territorio__meta">
+                  {beraka.municipio} ({beraka.departamento}) · {beraka.funcion}
+                </p>
+                <p>{beraka.texto}</p>
+                <ul class="etiquetas">
+                  {beraka.etiquetas.map((e) => <li>{e}</li>)}
+                </ul>
+              </div>
+              <div
+                class="foto-pendiente"
+                data-estado="pendienteAP"
+                role="note"
+                aria-label="Espacio de imagen reservado para Hacienda Beraka"
+              >
+                <strong>Imagen pendiente de aprobación</strong>
+                Capítulo Beraka: foto propia autorizada, cuando exista.
+                FIXTURE, no publicable.
+              </div>
+            </article>
+          )}
+          {puertaRoja && (
+            <article class="territorio territorio--invertido" aria-labelledby="t-proja">
+              <div>
+                <h3 id="t-proja">{puertaRoja.nombre}</h3>
+                <p class="territorio__meta">
+                  {puertaRoja.municipio} ({puertaRoja.departamento}) · {puertaRoja.funcion}
+                </p>
+                <p>{puertaRoja.texto}</p>
+                <ul class="etiquetas">
+                  {puertaRoja.etiquetas.map((e) => <li>{e}</li>)}
+                </ul>
+              </div>
+              <div
+                class="foto-pendiente"
+                data-estado="pendienteAP"
+                role="note"
+                aria-label="Espacio de imagen reservado para Hacienda Puerta Roja"
+              >
+                <strong>Imagen pendiente de aprobación</strong>
+                Capítulo Puerta Roja: foto propia autorizada, cuando exista.
+                FIXTURE, no publicable.
+              </div>
+            </article>
+          )}
+        </div>
+      </section>
+
+      <!-- Ganado y manejo: estructura reservada, sin hechos inventados. -->
+      <section class="capitulo" id="manejo" aria-labelledby="t-manejo">
+        <div class="contenedor">
+          <p class="capitulo__kicker">Ganado y manejo</p>
+          <h2 id="t-manejo">Hato y manejo</h2>
+          <p>
+            Estructura reservada para la galería sobria y los pilares de manejo.
+            El contenido textual espera transcripción aprobada (OT-02/OT-15);
+            este prototipo no afirma razas, genética ni propiedad a partir de
+            imágenes.
+          </p>
+          <div
+            class="foto-pendiente"
+            data-estado="pendienteAP"
+            role="note"
+            aria-label="Espacio de galería reservado, pendiente de aprobación"
+          >
+            <strong>Galería pendiente de aprobación</strong>
+            Díptico deliberado solo con derivados aprobados (p. ej. O-IMG02/O-IMG03).
+            FIXTURE, no publicable.
+          </div>
+        </div>
+      </section>
+
+      <!-- Operación e infraestructura: subapartados con anclas. -->
+      <section class="capitulo capitulo--alt" id="infraestructura" aria-labelledby="t-infra">
+        <div class="contenedor">
+          <p class="capitulo__kicker">Operación e infraestructura</p>
+          <h2 id="t-infra">Infraestructura</h2>
+          <div class="subapartado" id="bebederos">
+            <h3>Bebederos y agua</h3>
+            <p>
+              El bebedero vertical (O-IMG04, 485×650) se contiene en columna de
+              detalle (máx. 560 px de alto): nunca a todo el ancho ni ampliado
+              (OT-Q023).
+            </p>
+            <figure class="foto-pendiente detalle-vertical" data-estado="pendienteAP" role="note" aria-label="Espacio contenido reservado para el bebedero">
+              <strong>Imagen pendiente de aprobación</strong>
+              Composición contenida, sin ampliación. FIXTURE, no publicable.
+            </figure>
+          </div>
+          <div class="subapartado" id="feedlot">
+            <h3>Feedlot y praderas</h3>
+            <p>
+              Corrales, praderas y feedlot como subapartado con ancla propia;
+              imagen de infraestructura (p. ej. O-IMG05) solo tras aprobación.
+            </p>
+            <div
+              class="foto-pendiente"
+              data-estado="pendienteAP"
+              role="note"
+              aria-label="Espacio de imagen reservado para feedlot"
+            >
+              <strong>Imagen pendiente de aprobación</strong>
+              FIXTURE, no publicable.
+            </div>
+          </div>
+          <div class="subapartado" id="solar">
+            <h3>Solar en Beraka</h3>
+            <div class="ficha-solar">
+              <p>
+                <strong>Ficha secundaria pendiente.</strong> Las cifras solares
+                están en conflicto entre fuentes y no aparecen en la salida
+                pública hasta su aprobación (OT-Q006). Sin cifras bloqueadas en
+                este HTML.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cierre editorial: sin contacto ni preparador (OT-07/OT-15). -->
+      <section class="cierre" id="cierre" aria-labelledby="t-cierre">
+        <div class="contenedor">
+          <p class="badge-fixture">Fixture técnico — no publicable</p>
+          <p class="capitulo__kicker">Cierre editorial</p>
+          <h2 id="t-cierre">Consulta y cierre</h2>
+          <p>
+            El contacto editorial y el preparador local pertenecen a OT-07 y a
+            las aprobaciones de OT-15. Este prototipo no publica buzón, dominio,
+            teléfono ni NIT.
+          </p>
+          <h3>Omitidos por puerta editorial (informe al operador)</h3>
+          <ul>
+            {publica.omitidos.map((m) => <li>{m}</li>)}
+          </ul>
+          <p><small>Sin JavaScript: esta página no incluye ningún script.</small></p>
+        </div>
+      </section>
     </main>
+
+    <footer class="pie">
+      <div class="contenedor">
+        <p>
+          OTERCO-TECH · Prototipo OT-04, fixture no publicable · Sin fotografía
+          aprobada · Tipografía del sistema (no aprobada) · Puerta editorial: {publica.nivel}
+        </p>
+      </div>
+    </footer>
   </body>
 </html>

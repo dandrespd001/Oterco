@@ -1,49 +1,460 @@
-/* OT-01: CSS propio mínimo. Sin frameworks ni runtimes. */
+/* OT-04 — Ficha y composición editorial propia de OTERCO.
+ *
+ * Tokens de 03_INTERFAZ/DISENO.md (corte 2026-09-17). Composición
+ * rural-editorial: capítulos asimétricos, filetes, pies de bloque y ritmo
+ * amplio. NO es la identidad de Puerta Abierta (ver matriz en
+ * 03_INTERFAZ/INDEPENDENCIA_VISUAL.md y comparación conceptual en
+ * docs/implementacion/OT-04/fonts/COMPARACION.md).
+ *
+ * Tipografía: stacks del sistema como herramienta de trabajo. Las familias
+ * autorizadas (Libre Caslon Display / Work Sans) viven en fonts.css, que
+ * SIGUE SIN CABLEARSE hasta que el operador aporte los .woff2 + licencias
+ * (OT-03). Nada de este fichero presenta el fallback como tipografía
+ * aprobada ni importa fonts.css.
+ *
+ * Sin fotografía: ningún <img> en el prototipo OT-04. Los bloques de imagen
+ * son .foto-pendiente deshabilitados (data-estado="pendienteAP").
+ * Sin módulos de contacto ni preparador (OT-07).
+ */
+
 :root {
-  --ink: #1a1a1a;
-  --paper: #ffffff;
-  --accent: #1d4d2b;
-  --space: 1rem;
+  /* Paleta reservada OTERCO (DISENO.md §Tokens). */
+  --ot-paper: #ede6d2;
+  --ot-paper-alt: #e3d8bb;
+  --ot-forest: #1f3327;
+  --ot-forest-deep: #16241b;
+  --ot-ink: #1c2019;
+  --ot-muted: #55594b;
+  --ot-clay: #7a3b24;
+  --ot-ochre: #b07a2c;
+
+  /* Stacks de trabajo (NO tipografía aprobada; ver cabecera). */
+  --ot-font-display: georgia, "Times New Roman", serif;
+  --ot-font-texto: system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Escalas (DISENO.md §Tokens). */
+  --ot-h1: clamp(2.75rem, 6.2vw, 5rem);
+  --ot-h2: clamp(2rem, 4vw, 3rem);
+  --ot-cuerpo: 1.125rem;
+  --ot-medida: 62ch;
+  --ot-contenedor: 70rem; /* 1120 px */
+  --ot-ritmo: clamp(2.5rem, 6vw, 7rem); /* 40–112 px */
+  --ot-radio: 2px; /* botones rectos 0–3 px, nunca píldoras */
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: auto; /* sin smooth scroll ornamental */
+}
+
 body {
   margin: 0;
-  color: var(--ink);
-  background: var(--paper);
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-  line-height: 1.6;
+  color: var(--ot-ink);
+  background: var(--ot-paper);
+  font-family: var(--ot-font-texto);
+  font-size: var(--ot-cuerpo);
+  line-height: 1.65;
+}
+
+h1,
+h2,
+h3,
+.cita-editorial {
+  font-family: var(--ot-font-display);
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--ot-forest);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--ot-h1);
+  max-width: 16ch;
+  margin: 0 0 1rem;
+}
+
+h2 {
+  font-size: var(--ot-h2);
+  margin: 0 0 0.75rem;
+}
+
+h3 {
+  font-size: 1.375rem;
+  margin: 0 0 0.5rem;
+}
+
+p {
+  max-width: var(--ot-medida);
+}
+
+a {
+  color: var(--ot-clay);
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* Foco siempre visible; nunca solo color (V-09). */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--ot-forest);
+  outline-offset: 3px;
 }
 
 .skip-link {
   position: absolute;
   left: 0.5rem;
-  top: -3rem;
-  background: var(--ink);
-  color: var(--paper);
-  padding: 0.5rem 1rem;
+  top: -4rem;
+  background: var(--ot-forest);
+  color: var(--ot-paper);
+  padding: 0.6rem 1rem;
+  font-weight: 600;
 }
 
 .skip-link:focus {
   top: 0.5rem;
 }
 
-main {
-  max-width: 44rem;
-  margin: 0 auto;
-  padding: calc(var(--space) * 2) var(--space);
+/* Contenedor editorial: 1120 px, padding móvil 20 px. */
+.contenedor {
+  max-width: var(--ot-contenedor);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
 }
 
-.badge {
+/* Masthead tipográfico, NO sticky en la primera entrega. */
+.masthead {
+  border-bottom: 2px solid var(--ot-forest);
+  padding-block: 1rem 0.75rem;
+  background: var(--ot-paper);
+}
+
+.masthead__fila {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+}
+
+.marca {
+  font-family: var(--ot-font-display);
+  font-size: 1.5rem;
+  letter-spacing: 0.14em;
+  color: var(--ot-forest);
+  text-decoration: none;
+}
+
+.marca__sub {
+  display: block;
+  font-family: var(--ot-font-texto);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  color: var(--ot-muted);
+}
+
+/* Índice editorial: cinco destinos en <details> nativo.
+   Comportamiento real: plegado SOLO en móvil (<48rem), donde el <summary>
+   "Índice" se opera con teclado/ratón/táctil y sin JS (nunca
+   nav{display:none}: cerrada solo oculta la lista, el resumen sigue
+   visible). En escritorio (≥48rem, ver media query) el resumen se oculta
+   y la lista se fuerza visible en línea con independencia del estado
+   open/cerrado, de modo que los 5 destinos existen siempre como enlaces. */
+.indice {
+  font-size: 1rem;
+}
+
+.indice__lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.indice__resumen {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--ot-forest);
+  padding: 0.75rem 0;
+}
+
+/* Hero tipográfico: titular sobre fondo claro + textura abstracta CSS.
+   Sin foto, sin texto superpuesto, sin velo oscuro (≠ PA). */
+.hero {
+  padding-block: var(--ot-ritmo);
+  border-bottom: 1px solid var(--ot-ochre);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent 0 14px,
+    rgb(31 51 39 / 0.035) 14px 15px
+  );
+}
+
+.hero__kicker {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ot-clay);
+  margin: 0 0 1rem;
+}
+
+.hero__datos {
+  color: var(--ot-muted);
+  font-size: 1rem;
+  margin: 0 0 1.5rem;
+}
+
+.hero__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0 0 2rem;
+}
+
+/* Botones rectos; táctil ≥44 px. */
+.boton {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.6rem 1.4rem;
+  border-radius: var(--ot-radio);
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+}
+
+.boton--principal {
+  background: var(--ot-forest);
+  color: var(--ot-paper);
+}
+
+.boton--secundario {
+  border: 2px solid var(--ot-forest);
+  color: var(--ot-forest);
+  background: transparent;
+}
+
+/* Capítulos: ritmo amplio, alternancia limitada, sin tarjetas uniformes. */
+.capitulo {
+  padding-block: var(--ot-ritmo);
+  border-bottom: 1px solid rgb(31 51 39 / 0.25);
+}
+
+.capitulo--alt {
+  background: var(--ot-paper-alt);
+}
+
+.capitulo__kicker {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ot-clay);
+  margin: 0 0 0.5rem;
+}
+
+/* Oferta: tres filas editoriales con filete, no tarjetas iguales. */
+.fila-oferta {
+  display: grid;
+  gap: 0.25rem 2rem;
+  padding-block: 1.5rem;
+  border-top: 1px solid var(--ot-forest);
+}
+
+.fila-oferta:last-of-type {
+  border-bottom: 1px solid var(--ot-forest);
+}
+
+.fila-oferta__categoria {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ot-muted);
+  margin: 0;
+}
+
+/* Territorios: capítulos asimétricos (7/5 en escritorio). */
+.territorio {
+  display: grid;
+  gap: 1.5rem;
+  padding-block: 1.5rem;
+}
+
+.territorio + .territorio {
+  border-top: 1px solid rgb(31 51 39 / 0.25);
+}
+
+.territorio__meta {
+  color: var(--ot-muted);
+  font-size: 1rem;
+  margin: 0 0 0.75rem;
+}
+
+.etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+}
+
+.etiquetas li {
+  border: 1px solid var(--ot-clay);
+  color: var(--ot-clay);
+  font-size: 0.9rem;
+  padding: 0.2rem 0.7rem;
+}
+
+/* Bloque de imagen DESHABILITADO: sin <img>, sin alt fotográfico,
+   sin stock/IA/foto ajena. Solo marca la reserva de composición. */
+.foto-pendiente {
+  border: 2px dashed var(--ot-muted);
+  color: var(--ot-muted);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  font-size: 0.95rem;
+  background: rgb(255 255 255 / 0.25);
+}
+
+.foto-pendiente strong {
+  display: block;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+/* OT-Q023 — El bebedero vertical (O-IMG04, 485×650) se contiene en columna
+   de detalle: nunca a todo el ancho, nunca ampliado, máx ~560 px de alto.
+   Regla de composición vigente aun sin fotos publicadas. */
+.detalle-vertical {
+  max-width: 22rem;
+  max-height: 35rem; /* 560 px */
+  overflow: hidden;
+}
+
+figure.detalle-vertical {
+  margin-inline: 0;
+}
+
+/* Infraestructura: subapartados con anclas propias. */
+.subapartado {
+  padding-block: 1.25rem;
+}
+
+.subapartado + .subapartado {
+  border-top: 1px dashed var(--ot-muted);
+}
+
+/* Solar: ficha secundaria, datos solo aprobados (hoy: pendiente). */
+.ficha-solar {
+  border-left: 4px solid var(--ot-ochre);
+  padding: 1rem 1.25rem;
+  background: rgb(255 255 255 / 0.3);
+  max-width: var(--ot-medida);
+}
+
+/* Cierre editorial: oscuro bosque, una columna protagonista. */
+.cierre {
+  background: var(--ot-forest-deep);
+  color: var(--ot-paper);
+  padding-block: var(--ot-ritmo);
+}
+
+.cierre h2 {
+  color: var(--ot-paper);
+}
+
+.cierre p,
+.cierre li {
+  color: var(--ot-paper);
+}
+
+.cierre a {
+  color: var(--ot-paper);
+}
+
+.cierre .capitulo__kicker {
+  color: var(--ot-paper-alt);
+}
+
+.pie {
+  background: var(--ot-forest-deep);
+  color: var(--ot-paper);
+  border-top: 1px solid rgb(237 230 210 / 0.3);
+  padding-block: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.pie p {
+  margin: 0;
+  max-width: none;
+}
+
+.badge-fixture {
   display: inline-block;
-  border: 2px solid var(--accent);
-  color: var(--accent);
+  border: 2px solid var(--ot-clay);
+  color: var(--ot-clay);
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   padding: 0.15rem 0.6rem;
   text-transform: uppercase;
+}
+
+.cierre .badge-fixture {
+  border-color: var(--ot-paper);
+  color: var(--ot-paper);
+}
+
+/* Escritorio: asimetría editorial (≠ retícula 12 uniforme de PA).
+   Índice siempre desplegado: el resumen se oculta y la lista se muestra
+   en línea tanto con details[open] como con details:not([open]), sin JS. */
+@media (min-width: 48rem) {
+  .indice__resumen {
+    display: none;
+  }
+
+  .indice details[open] > .indice__lista,
+  .indice details:not([open]) > .indice__lista {
+    display: flex;
+  }
+
+  .fila-oferta {
+    grid-template-columns: 12rem 1fr;
+  }
+
+  .territorio {
+    grid-template-columns: 7fr 5fr;
+    align-items: start;
+  }
+
+  .territorio--invertido > :first-child {
+    order: 2;
+  }
+}
+
+/* Movimiento: contenido visible en estado inicial; con reduced-motion
+   se eliminan desplazamientos y transiciones. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
 }
