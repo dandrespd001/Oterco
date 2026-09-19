@@ -1,0 +1,34 @@
+---
+import { siteConfig } from "../config/site";
+import rawFixture from "../content/fixture.json";
+import { parseFixture, countChecks } from "../lib/fixture";
+import "../styles/base.css";
+
+const fixture = parseFixture(rawFixture);
+if (fixture === null) {
+  throw new Error("Fixture OT-01 inválido: revisar src/content/fixture.json");
+}
+const total = countChecks(fixture);
+---
+<!doctype html>
+<html lang={siteConfig.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content={siteConfig.robots} />
+    <title>{fixture.heading} · {siteConfig.internalName}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <main id="contenido">
+      <p class="badge">Fixture técnico — no publicable</p>
+      <h1>{fixture.heading}</h1>
+      <p>{fixture.intro}</p>
+      <h2>Comprobaciones ({total})</h2>
+      <ul>
+        {fixture.checks.map((item) => <li>{item}</li>)}
+      </ul>
+      <p><small>Sin JavaScript: esta página no incluye ningún script.</small></p>
+    </main>
+  </body>
+</html>

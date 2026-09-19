@@ -1,0 +1,21 @@
+# Dependencias y compilados
+node_modules/
+dist/
+.astro/
+
+# Tipos locales generados por Astro
+src/env.d.ts
+
+# Sistema y editoriales
+.DS_Store
+Thumbs.db
+
+# Referencias privadas: nunca se publican ni se versionan derivados sin aprobación
+.private-references/
+
+# Secretos y entorno local: prohibidos en el repo
+.env
+.env.*
+*.pem
+*.key
+.dev.vars

@@ -1,0 +1,112 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "opencode-go/glm-5.3-flash",
+  "small_model": "opencode-go/minimax-m3",
+  "default_agent": "ot-coordinador",
+  "enabled_providers": [
+    "opencode-go"
+  ],
+  "provider": {
+    "opencode-go": {
+      "whitelist": [
+        "kimi-k2.7-code",
+        "minimax-m3",
+        "glm-5.2",
+        "glm-5.3-flash",
+        "muse-spark-1.3-contributor",
+        "deepseek-v4.1-flash"
+      ]
+    }
+  },
+  "autoupdate": false,
+  "share": "disabled",
+  "subagent_depth": 1,
+  "compaction": {
+    "auto": true,
+    "prune": true,
+    "reserved": 16000
+  },
+  "watcher": {
+    "ignore": [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/.wrangler/**",
+      "**/test-results/**",
+      "**/playwright-report/**",
+      ".git/**",
+      "**/releases/**",
+      "**/.private-references/**"
+    ]
+  },
+  "permission": {
+    "*": "ask",
+    "read": {
+      "*": "allow",
+      "*.env*": "deny",
+      "*.dev.vars*": "deny",
+      "*auth.json": "deny",
+      "*.pem": "deny",
+      "*.key": "deny",
+      "*private-data/*": "deny",
+      "*.private-references/*": "deny",
+      "*.env.example": "allow",
+      "*.dev.vars.example": "allow",
+      "*releases/*": "ask"
+    },
+    "glob": "allow",
+    "grep": "allow",
+    "list": "allow",
+    "lsp": "ask",
+    "edit": "deny",
+    "bash": {
+      "*": "ask",
+      "pwd": "allow",
+      "git status": "allow",
+      "git status --short": "allow",
+      "git diff --stat": "allow",
+      "git diff --check": "allow",
+      "node --version": "allow",
+      "pnpm --version": "allow",
+      "opencode --version": "allow",
+      "*git push*": "allow",
+      "*git reset --hard*": "deny",
+      "*git clean*": "deny",
+      "*rm -rf*": "deny",
+      "sudo *": "deny",
+      "*printenv*": "deny",
+      "env": "deny",
+      "*wrangler*deploy*": "deny",
+      "*wrangler*publish*": "deny",
+      "*wrangler*--remote*": "deny",
+      "*wrangler*secret*": "deny",
+      "*release:publish*": "deny",
+      "*release:rollback*": "deny",
+      "*wrangler*d1*": "deny"
+    },
+    "task": "deny",
+    "skill": "deny",
+    "webfetch": "ask",
+    "websearch": "ask",
+    "external_directory": "deny",
+    "doom_loop": "ask",
+    "question": "allow",
+    "todowrite": "deny"
+  },
+  "agent": {
+    "build": {
+      "disable": true
+    },
+    "plan": {
+      "disable": true
+    },
+    "general": {
+      "disable": true
+    },
+    "explore": {
+      "disable": true
+    },
+    "scout": {
+      "disable": true
+    }
+  }
+}

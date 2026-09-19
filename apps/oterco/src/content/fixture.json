@@ -1,0 +1,11 @@
+{
+  "_fixture": "FIXTURE OT-01 — datos sintéticos de andamiaje. NO publicables, NO comerciales, NO afirman hechos reales.",
+  "heading": "Página técnica de prueba",
+  "intro": "Salida estática mínima para verificar instalación reproducible y build. Sin diseño final.",
+  "checks": [
+    "HTML estático servido desde dist/",
+    "TypeScript estricto + astro check",
+    "CSS propio sin dependencias",
+    "Navegación y lectura sin JavaScript"
+  ]
+}
