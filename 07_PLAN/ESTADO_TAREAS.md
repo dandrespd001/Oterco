@@ -5,7 +5,7 @@ El coordinador mantiene este registro; las fichas conservan sus criterios. Ningu
 | ID | Estado | Commit/diff | Evidencia | Siguiente acción |
 |---|---|---|---|---|
 | OT-01 | REALIZADA | Commit `481f4f4` (raíz) · push a origin/master | docs/implementacion/OT-01/EVIDENCIA.md, VERSIONES.md | OT-02 tras cierre de OT-Q003 en copia limpia/CI |
-| OT-02 | REALIZADA (con ajustes) | H1+H2 aplicados post-revisión; sin commit aún | docs/implementacion/OT-02/EVIDENCIA.md | Commit de cierre; aprobaciones NIT/contacto/solar/fotos quedan para OT-15 |
+| OT-02 | REALIZADA (con ajustes) | Commit `1c5b5b6` | docs/implementacion/OT-02/EVIDENCIA.md | OT-03 (extracción de recursos); aprobaciones datos → OT-15 |
 | OT-03 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
 | OT-04 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
 | OT-05 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
