@@ -186,6 +186,16 @@ summary:focus-visible {
   padding: 0.75rem 0;
 }
 
+/* OT-05 (F1) — Enlaces del índice con objetivo táctil ≥44 px SOLO en móvil:
+   inline-block + padding-block 0.6rem (16 px × 1.65 ≈ 26 px de línea +
+   2 × 9.6 px ≈ 46 px totales). Excepción en escritorio (≥48rem, ver media
+   query): vuelven a inline sin padding-block para conservar la fila
+   editorial en línea; allí el puntero es fino y no necesitan área táctil. */
+.indice__lista a {
+  display: inline-block;
+  padding-block: 0.6rem;
+}
+
 /* Hero tipográfico: titular sobre fondo claro + textura abstracta CSS.
    Sin foto, sin texto superpuesto, sin velo oscuro (≠ PA). */
 .hero {
@@ -425,6 +435,13 @@ figure.detalle-vertical {
     display: none;
   }
 
+  /* OT-05 (F1) — Excepción de escritorio: los enlaces del índice quedan
+     inline sin padding-block (fila editorial en línea, puntero fino). */
+  .indice__lista a {
+    display: inline;
+    padding-block: 0;
+  }
+
   .indice details[open] > .indice__lista,
   .indice details:not([open]) > .indice__lista {
     display: flex;
@@ -442,6 +459,36 @@ figure.detalle-vertical {
   .territorio--invertido > :first-child {
     order: 2;
   }
+}
+
+/* OT-05 — Piel del shell: enlaces pendientes y pie editorial.
+ * Extiende los estados pendienteAP de OT-04 sin duplicarlos: los enlaces
+ * de repliegue usan subrayado discontinuo (nunca solo color) y el bloque
+ * de contacto del pie hereda la ficha secundaria de infraestructura. */
+a[data-estado="pendienteAP"] {
+  text-decoration-style: dashed;
+}
+
+.pie__fila {
+  display: grid;
+  gap: 1rem;
+}
+
+/* OT-05 (F2) — Sin .pie__contacto p (regla muerta: el contacto ES un <p>,
+   sin <p> descendientes; .pie p ya pone margin: 0) y sin max-width en
+   .pie__contacto (muerto: .pie p{max-width:none} gana por especificidad). */
+.pie__contacto {
+  border-left: 4px solid var(--ot-ochre);
+  padding: 0.75rem 1rem;
+  background: rgb(237 230 210 / 0.06);
+}
+
+.pie__contacto strong {
+  display: block;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  margin-bottom: 0.25rem;
 }
 
 /* Movimiento: contenido visible en estado inicial; con reduced-motion

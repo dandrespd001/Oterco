@@ -1,0 +1,18 @@
+---
+/**
+ * OT-05 — Masthead tipográfico propio de OTERCO, sin sticky.
+ * Marca + índice corto (cinco destinos, DISENO.md §Masthead).
+ * Cero scripts; la navegación existe con y sin JavaScript.
+ */
+import Indice from "./Indice.astro";
+import { INDICE_MASTHEAD } from "../config/navegacion";
+---
+<header class="masthead">
+  <div class="contenedor masthead__fila">
+    <a class="marca" href="#contenido" aria-label="OTERCO, inicio del prototipo">
+      OTERCO
+      <span class="marca__sub">Ganadería · Costa Norte · Prototipo OT-05</span>
+    </a>
+    <Indice destinos={INDICE_MASTHEAD} />
+  </div>
+</header>

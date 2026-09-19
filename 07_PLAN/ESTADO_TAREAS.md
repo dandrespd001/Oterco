@@ -8,7 +8,7 @@ El coordinador mantiene este registro; las fichas conservan sus criterios. Ningu
 | OT-02 | REALIZADA (con ajustes) | Commit `1c5b5b6` | docs/implementacion/OT-02/EVIDENCIA.md | OT-03 (extracción de recursos); aprobaciones datos → OT-15 |
 | OT-03 | REALIZADA (parcial por bloqueo de originales) | Commit tras ajustes H1-H4/H8 | docs/implementacion/OT-03/EVIDENCIA.md | Operador: extraer.py + originales, .woff2 + licencias; verificación de huellas y OT-Q011 al aprobarse binarios |
 | OT-04 | REALIZADA (prototipo fixture; visual pend. operador) | Commit tras ajustes A-D | docs/implementacion/OT-04/EVIDENCIA.md, DISENO.md | Operador: validación de diseño y comparación visual (OT-Q011/Q012 skips honestos); continúa OT-05 |
-| OT-05 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
+| OT-05 | REALIZADA (navegación manual pend. operador) | Commit tras ajustes F1-F4 | docs/implementacion/OT-05/EVIDENCIA.md | OT-06 continúa; navegación real/teclado/capturas → OT-10/OT-14 |
 | OT-06 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
 | OT-07 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
 | OT-08 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |

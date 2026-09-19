@@ -1,0 +1,45 @@
+---
+/**
+ * OT-05 — Layout base propio de OTERCO (sin renderer compartido con PA).
+ *
+ * Head SEO mínimo: lang es, title/description fixture, robots noindex
+ * (página técnica no publicable). Canonical: pendienteAP — sin dominio
+ * aprobado no se emite URL real (solo comentario, OT-40 queda para OT-15).
+ * Skip-link + Header + main#contenido + Footer. Cero scripts.
+ */
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { siteConfig } from "../config/site";
+import "../styles/base.css";
+
+interface Props {
+  titulo?: string;
+  descripcion?: string;
+  nivel?: string;
+}
+
+const {
+  titulo = "OTERCO — Prototipo editorial (fixture, no publicable)",
+  descripcion = "FIXTURE OT-05 — prototipo editorial no publicable de OTERCO.",
+  nivel = "tecnica",
+} = Astro.props;
+---
+<!doctype html>
+<html lang={siteConfig.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content={siteConfig.robots} />
+    <meta name="description" content={descripcion} />
+    <title>{titulo}</title>
+    <!-- OT-05 canonical pendienteAP: sin dominio aprobado no se emite URL real. -->
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <Header />
+    <main id="contenido">
+      <slot />
+    </main>
+    <Footer nivel={nivel} />
+  </body>
+</html>

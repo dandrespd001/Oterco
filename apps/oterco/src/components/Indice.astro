@@ -1,0 +1,34 @@
+---
+/**
+ * OT-05 — Índice editorial extraído de la portada OT-04.
+ * Elemento details nativo: operable con teclado/ratón/táctil y sin JS.
+ * Destinos desde la fuente única src/config/navegacion.ts.
+ * Los pendientes emiten data-estado="pendienteAP" y href de repliegue
+ * a sección disponible, nunca file:// ni URL inventada.
+ */
+import type { Destino } from "../config/navegacion";
+
+interface Props {
+  destinos: readonly Destino[];
+}
+
+const { destinos } = Astro.props;
+---
+<nav class="indice" aria-label="Índice editorial">
+  <details>
+    <summary class="indice__resumen">Índice</summary>
+    <ul class="indice__lista">
+      {destinos.map((d) => (
+        <li>
+          {d.estado === "pendienteAP" ? (
+            <a href={d.href} data-estado="pendienteAP" title={`${d.etiqueta} — ${d.nota}`}>
+              {d.etiqueta}
+            </a>
+          ) : (
+            <a href={d.href} title={d.nota}>{d.etiqueta}</a>
+          )}
+        </li>
+      ))}
+    </ul>
+  </details>
+</nav>

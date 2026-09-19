@@ -1,0 +1,36 @@
+---
+/**
+ * OT-05 — Pie editorial oscuro propio de OTERCO.
+ * Sin datos comerciales no aprobados: sin NIT, sin buzón, sin dominio,
+ * sin teléfono (OT-07/OT-15). El contacto es un bloque declarativo
+ * deshabilitado con data-estado="pendienteAP" que repliega a #cierre.
+ */
+import { DESTINOS_PENDIENTES } from "../config/navegacion";
+
+interface Props {
+  nivel?: string;
+}
+
+const { nivel = "tecnica" } = Astro.props;
+const contacto = DESTINOS_PENDIENTES[0];
+---
+<footer class="pie">
+  <div class="contenedor pie__fila">
+    <p>
+      OTERCO-TECH · Prototipo OT-05, fixture no publicable · Sin fotografía
+      aprobada · Tipografía del sistema (no aprobada) · Puerta editorial: {nivel}
+    </p>
+    <p
+      class="pie__contacto"
+      data-estado="pendienteAP"
+      role="note"
+      aria-label="Contacto pendiente de aprobación"
+    >
+      <strong>Contacto pendiente de aprobación.</strong>
+      Sin buzón, dominio ni teléfono publicados (OT-07/OT-15).
+      <a href={contacto.href} data-estado="pendienteAP" title={contacto.nota}>
+        Ver cierre editorial
+      </a>
+    </p>
+  </div>
+</footer>

@@ -22,6 +22,18 @@ const RAIZ = join(dirname(fileURLToPath(import.meta.url)), "..");
 const BASE_CSS = join(RAIZ, "src", "styles", "base.css");
 const FONTS_CSS = join(RAIZ, "src", "styles", "fonts.css");
 const INDEX = join(RAIZ, "src", "pages", "index.astro");
+// OT-05 (compatibilidad de composición): el shell vive en componentes propios
+// (BaseLayout + Header/Indice/Footer + fuente única de ruteo). Se lee la
+// composición con las mismas aserciones; no se relaja ningún criterio.
+const SHELL_OT05 = [
+  INDEX,
+  join(RAIZ, "src", "layouts", "BaseLayout.astro"),
+  join(RAIZ, "src", "components", "Header.astro"),
+  join(RAIZ, "src", "components", "Indice.astro"),
+  join(RAIZ, "src", "components", "Footer.astro"),
+  join(RAIZ, "src", "config", "navegacion.ts"),
+];
+const index = SHELL_OT05.map((f) => readFileSync(f, "utf-8")).join("\n");
 const DOC = join(RAIZ, "..", "..", "docs", "implementacion", "OT-04", "DISENO.md");
 const COMPARACION = join(
   RAIZ,
@@ -35,7 +47,6 @@ const COMPARACION = join(
 );
 
 const css = readFileSync(BASE_CSS, "utf-8");
-const index = readFileSync(INDEX, "utf-8");
 
 function seccionesEnOrden() {
   const ids = ["portafolio", "fincas", "manejo", "infraestructura", "cierre"];
@@ -66,8 +77,14 @@ describe("OT-Q010 composición editorial propia", () => {
   it("prototipo con estructura completa: masthead, índice, hero y capítulos en orden", () => {
     assert.ok(/class="masthead"/.test(index), "masthead propio");
     assert.ok(/aria-label="Índice editorial"/.test(index), "índice editorial");
+    // OT-05 (compatibilidad de ruteo): los destinos viven en la fuente única
+    // src/config/navegacion.ts como datos (href: "#…") y se emiten desde
+    // Indice.astro; se acepta la forma en línea o la forma ruteada.
     for (const destino of ["#portafolio", "#fincas", "#manejo", "#infraestructura", "#cierre"]) {
-      assert.ok(index.includes(`href="${destino}"`), `destino ${destino}`);
+      assert.ok(
+        index.includes(`href="${destino}"`) || index.includes(`href: "${destino}"`),
+        `destino ${destino}`,
+      );
     }
     assert.ok(/class="hero"/.test(index), "hero tipográfico");
     assert.ok(/<h1[^>]*>/.test(index), "un H1");
