@@ -7,8 +7,8 @@ Contexto documental actualizado al 17 de septiembre de 2026. El informe 99_VALID
 
 | Campo | Valor inicial |
 |---|---|
-| Próxima tarea | OT-02 |
-| Commit/repositorio real | Commit raíz 481f4f4 en master; remoto origin = github.com/dandrespd001/Oterco (push ejecutado 2026-09-19) |
+| Próxima tarea | OT-03 |
+| Commit/repositorio real | master @ origin (base 481f4f4 + ffe5d20); OT-02 pendiente de commit de cierre |
 | Estado de desarrollo | OT-01 realizada unitariamente (Astro 5.15.9 static en apps/oterco; build/check OK; sin commit) |
 | Versión OpenCode/Go | CLI v2.0.8; cuenta Go conectada en sesión (2026-09-19) |
 | Aprobación remota | No otorgada por este paquete |
