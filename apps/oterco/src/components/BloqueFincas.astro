@@ -1,0 +1,51 @@
+---
+/**
+ * OT-06 — Dos capítulos territoriales (Beraka y Puerta Roja).
+ *
+ * Consume la proyección pública de OT-02 vía props (la página importa
+ * `proyeccionPublica(perfilBase)` de forma real y pasa `publica.fincas`).
+ * Nombres, municipios, funciones, textos y etiquetas literales llegan por
+ * datos: este archivo no duplica ningún literal de `perfil.datos.ts`
+ * (OT-Q009). La mención y la etiqueta solares de Beraka ya vienen
+ * filtradas por la proyección (puerta editorial OT-Q006).
+ *
+ * Foto por capítulo mediante FotoPendiente (resolverRecurso real):
+ * Beraka → O-IMG01, Puerta Roja → O-IMG02. Disposición asimétrica
+ * heredada (territorio / territorio--invertido), sin tarjetas copiadas.
+ * Trazabilidad in-code: data-fuente="O-D01" por capítulo (OT-Q007).
+ */
+import type { FincaPublica } from "../config/publicacion";
+import FotoPendiente from "./FotoPendiente.astro";
+
+interface Props {
+  fincas: readonly FincaPublica[];
+}
+
+const { fincas } = Astro.props;
+/* Un slot documental por capítulo, en el mismo orden de la proyección. */
+const SLOTS = ["O-IMG01", "O-IMG02"] as const;
+---
+
+{fincas.map((finca, i) => (
+  <article
+    class={i % 2 === 1 ? "territorio territorio--invertido" : "territorio"}
+    aria-labelledby={`t-finca-${i}`}
+    data-fuente="O-D01"
+  >
+    <div>
+      <h3 id={`t-finca-${i}`}>{finca.nombre}</h3>
+      <p class="territorio__meta">
+        {finca.municipio} ({finca.departamento}) · {finca.funcion}
+      </p>
+      <p>{finca.texto}</p>
+      <ul class="etiquetas">
+        {finca.etiquetas.map((e) => <li>{e}</li>)}
+      </ul>
+    </div>
+    <FotoPendiente
+      sourceId={SLOTS[i % SLOTS.length]}
+      titulo="Imagen pendiente de aprobación"
+      descripcion="Capítulo de finca: foto propia autorizada, cuando exista."
+    />
+  </article>
+))}

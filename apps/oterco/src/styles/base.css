@@ -491,6 +491,34 @@ a[data-estado="pendienteAP"] {
   margin-bottom: 0.25rem;
 }
 
+/* OT-06 — Slots de imagen pendiente (FotoPendiente.astro).
+ * Cada figure declara data-source/data-dims de la huella documental y
+ * reserva proporción con aspect-ratio en línea: sin <img> no hay píxel
+ * que ampliar ni recortar, solo reserva estructural accesible.
+ * OT-Q022: dimensiones coherentes con FUENTES_ORIGINALES; la figura
+ * nunca deforma su reserva (la futura foto usará object-fit contenido). */
+figure.foto-pendiente {
+  margin-inline: 0;
+}
+
+figure.foto-pendiente figcaption {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+}
+
+/* OT-06 (OT-Q023) — Bebedero vertical O-IMG04 (485×650): composición
+ * contenida y proporcional. La proporción 485 / 650 se declara aquí en
+ * la ficha (además del aspect-ratio en línea del slot) con tope de
+ * columna de detalle y alto máximo ~560 px: nunca a todo el ancho del
+ * contenedor, nunca ampliado, nunca recortado de forma engañosa. Nota
+ * de composición registrada junto a la regla, no solo en un comentario. */
+figure.foto-pendiente.detalle-vertical[data-dims="485x650"] {
+  aspect-ratio: 485 / 650;
+  max-width: 22rem;
+  max-height: 35rem; /* 560 px */
+  margin-inline: auto;
+}
+
 /* Movimiento: contenido visible en estado inicial; con reduced-motion
    se eliminan desplazamientos y transiciones. */
 @media (prefers-reduced-motion: reduce) {

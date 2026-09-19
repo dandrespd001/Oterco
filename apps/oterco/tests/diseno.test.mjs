@@ -25,12 +25,20 @@ const INDEX = join(RAIZ, "src", "pages", "index.astro");
 // OT-05 (compatibilidad de composición): el shell vive en componentes propios
 // (BaseLayout + Header/Indice/Footer + fuente única de ruteo). Se lee la
 // composición con las mismas aserciones; no se relaja ningún criterio.
+// OT-06 (composición por capítulos): los bloques viven en componentes
+// propios y la portada los ensambla; la lista sigue a la composición real
+// sin relajar ningún criterio (mismas aserciones sobre el conjunto).
 const SHELL_OT05 = [
   INDEX,
   join(RAIZ, "src", "layouts", "BaseLayout.astro"),
   join(RAIZ, "src", "components", "Header.astro"),
   join(RAIZ, "src", "components", "Indice.astro"),
   join(RAIZ, "src", "components", "Footer.astro"),
+  join(RAIZ, "src", "components", "BloquePortafolio.astro"),
+  join(RAIZ, "src", "components", "BloqueFincas.astro"),
+  join(RAIZ, "src", "components", "BloqueGanadoManejo.astro"),
+  join(RAIZ, "src", "components", "BloqueInfraestructura.astro"),
+  join(RAIZ, "src", "components", "FotoPendiente.astro"),
   join(RAIZ, "src", "config", "navegacion.ts"),
 ];
 const index = SHELL_OT05.map((f) => readFileSync(f, "utf-8")).join("\n");

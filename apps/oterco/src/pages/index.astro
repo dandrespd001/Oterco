@@ -1,22 +1,26 @@
 ---
 /**
- * OT-05 — Portada reensamblada sobre el shell propio (BaseLayout +
- * Header/Indice/Footer). El contenido de capítulos OT-04 se conserva;
- * el head, skip-link, masthead, main y pie viven en el layout.
+ * OT-06 — Capítulos generados desde datos reales transcritos.
  *
- * Datos de la proyección pública de OT-02 (etiquetas filtradas, sin
- * NIT/contacto/solar/fotos sin aprobar). Sin fotografía real (bloques
- * .foto-pendiente deshabilitados, data-estado="pendienteAP"), sin
- * fonts.css cableado, sin módulos de contacto ni preparador (OT-07).
- * Todo rotulado FIXTURE, no publicable. Estática: cero scripts.
+ * La página importa de forma real `proyeccionPublica(perfilBase)` (puerta
+ * editorial OT-02: etiquetas solares filtradas, sin NIT/contacto/solar/
+ * fotos sin aprobar) y la reparte a los bloques de `src/components/`:
+ * BloquePortafolio (3 líneas literales), BloqueFincas (2 fincas),
+ * BloqueGanadoManejo (roles por finca, sin afirmaciones genéticas) y
+ * BloqueInfraestructura (bebederos/feedlot/cobertizo + solar
+ * deshabilitado sin cifras). Cada slot de foto resuelve su recurso con
+ * `resolverRecurso()` y hoy emite placeholder estructural accesible
+ * (figure sin img). Shell propio OT-05 intacto; estática: cero scripts.
  */
 import BaseLayout from "../layouts/BaseLayout.astro";
+import BloqueFincas from "../components/BloqueFincas.astro";
+import BloqueGanadoManejo from "../components/BloqueGanadoManejo.astro";
+import BloqueInfraestructura from "../components/BloqueInfraestructura.astro";
+import BloquePortafolio from "../components/BloquePortafolio.astro";
 import { perfilBase } from "../content/perfil.datos";
 import { proyeccionPublica } from "../config/publicacion";
 
 const publica = proyeccionPublica(perfilBase);
-const beraka = publica.fincas.find((f) => f.id === "beraka");
-const puertaRoja = publica.fincas.find((f) => f.id === "puerta-roja");
 ---
 <BaseLayout nivel={publica.nivel}>
   <!-- Hero tipográfico: titular sobre fondo claro, sin foto. -->
@@ -32,113 +36,46 @@ const puertaRoja = publica.fincas.find((f) => f.id === "puerta-roja");
         <a class="boton boton--principal" href="#portafolio">Consultar portafolio</a>
         <a class="boton boton--secundario" href="#cierre">Cierre editorial</a>
       </div>
+      <!-- Hero sin slot O-IMG asignado: reserva genérica (no FotoPendiente;
+        los seis slots O-IMG01..O-IMG06 viven en los capítulos). -->
       <div
         class="foto-pendiente"
         data-estado="pendienteAP"
+        data-source="sin-asignar"
         role="note"
         aria-label="Espacio de imagen reservado, pendiente de aprobación"
       >
         <strong>Imagen pendiente de aprobación</strong>
-        Espacio reservado para paisaje o pastoreo autorizado (p. ej. O-IMG01).
+        Espacio reservado para paisaje o pastoreo autorizado.
         Sin stock, sin IA, sin foto ajena. FIXTURE, no publicable.
       </div>
     </div>
   </section>
 
-  <!-- Oferta al comprador: tres filas editoriales. -->
+  <!-- Oferta al comprador: tres filas editoriales desde la proyección. -->
   <section class="capitulo" id="portafolio" aria-labelledby="t-portafolio">
     <div class="contenedor">
       <p class="capitulo__kicker">Oferta al comprador</p>
       <h2 id="t-portafolio">Portafolio</h2>
-      {publica.oferta.map((linea) => (
-        <article class="fila-oferta">
-          <p class="fila-oferta__categoria">{linea.categoria}</p>
-          <div>
-            <h3>{linea.titulo}</h3>
-            <p>{linea.descripcion}</p>
-          </div>
-        </article>
-      ))}
+      <BloquePortafolio oferta={publica.oferta} />
     </div>
   </section>
 
-  <!-- Dos territorios: capítulos asimétricos de finca. -->
+  <!-- Dos territorios: capítulos asimétricos de finca desde la proyección. -->
   <section class="capitulo capitulo--alt" id="fincas" aria-labelledby="t-fincas">
     <div class="contenedor">
       <p class="capitulo__kicker">Dos territorios</p>
       <h2 id="t-fincas">Fincas</h2>
-      {beraka && (
-        <article class="territorio" aria-labelledby="t-beraka">
-          <div>
-            <h3 id="t-beraka">{beraka.nombre}</h3>
-            <p class="territorio__meta">
-              {beraka.municipio} ({beraka.departamento}) · {beraka.funcion}
-            </p>
-            <p>{beraka.texto}</p>
-            <ul class="etiquetas">
-              {beraka.etiquetas.map((e) => <li>{e}</li>)}
-            </ul>
-          </div>
-          <div
-            class="foto-pendiente"
-            data-estado="pendienteAP"
-            role="note"
-            aria-label="Espacio de imagen reservado para Hacienda Beraka"
-          >
-            <strong>Imagen pendiente de aprobación</strong>
-            Capítulo Beraka: foto propia autorizada, cuando exista.
-            FIXTURE, no publicable.
-          </div>
-        </article>
-      )}
-      {puertaRoja && (
-        <article class="territorio territorio--invertido" aria-labelledby="t-proja">
-          <div>
-            <h3 id="t-proja">{puertaRoja.nombre}</h3>
-            <p class="territorio__meta">
-              {puertaRoja.municipio} ({puertaRoja.departamento}) · {puertaRoja.funcion}
-            </p>
-            <p>{puertaRoja.texto}</p>
-            <ul class="etiquetas">
-              {puertaRoja.etiquetas.map((e) => <li>{e}</li>)}
-            </ul>
-          </div>
-          <div
-            class="foto-pendiente"
-            data-estado="pendienteAP"
-            role="note"
-            aria-label="Espacio de imagen reservado para Hacienda Puerta Roja"
-          >
-            <strong>Imagen pendiente de aprobación</strong>
-            Capítulo Puerta Roja: foto propia autorizada, cuando exista.
-            FIXTURE, no publicable.
-          </div>
-        </article>
-      )}
+      <BloqueFincas fincas={publica.fincas} />
     </div>
   </section>
 
-  <!-- Ganado y manejo: estructura reservada, sin hechos inventados. -->
+  <!-- Ganado y manejo: roles por finca + galería reservada. -->
   <section class="capitulo" id="manejo" aria-labelledby="t-manejo">
     <div class="contenedor">
       <p class="capitulo__kicker">Ganado y manejo</p>
       <h2 id="t-manejo">Hato y manejo</h2>
-      <p>
-        Estructura reservada para la galería sobria y los pilares de manejo.
-        El contenido textual espera transcripción aprobada (OT-02/OT-15);
-        este prototipo no afirma razas, genética ni propiedad a partir de
-        imágenes.
-      </p>
-      <div
-        class="foto-pendiente"
-        data-estado="pendienteAP"
-        role="note"
-        aria-label="Espacio de galería reservado, pendiente de aprobación"
-      >
-        <strong>Galería pendiente de aprobación</strong>
-        Díptico deliberado solo con derivados aprobados (p. ej. O-IMG02/O-IMG03).
-        FIXTURE, no publicable.
-      </div>
+      <BloqueGanadoManejo fincas={publica.fincas} />
     </div>
   </section>
 
@@ -147,45 +84,7 @@ const puertaRoja = publica.fincas.find((f) => f.id === "puerta-roja");
     <div class="contenedor">
       <p class="capitulo__kicker">Operación e infraestructura</p>
       <h2 id="t-infra">Infraestructura</h2>
-      <div class="subapartado" id="bebederos">
-        <h3>Bebederos y agua</h3>
-        <p>
-          El bebedero vertical (O-IMG04, 485×650) se contiene en columna de
-          detalle (máx. 560 px de alto): nunca a todo el ancho ni ampliado
-          (OT-Q023).
-        </p>
-        <figure class="foto-pendiente detalle-vertical" data-estado="pendienteAP" role="note" aria-label="Espacio contenido reservado para el bebedero">
-          <strong>Imagen pendiente de aprobación</strong>
-          Composición contenida, sin ampliación. FIXTURE, no publicable.
-        </figure>
-      </div>
-      <div class="subapartado" id="feedlot">
-        <h3>Feedlot y praderas</h3>
-        <p>
-          Corrales, praderas y feedlot como subapartado con ancla propia;
-          imagen de infraestructura (p. ej. O-IMG05) solo tras aprobación.
-        </p>
-        <div
-          class="foto-pendiente"
-          data-estado="pendienteAP"
-          role="note"
-          aria-label="Espacio de imagen reservado para feedlot"
-        >
-          <strong>Imagen pendiente de aprobación</strong>
-          FIXTURE, no publicable.
-        </div>
-      </div>
-      <div class="subapartado" id="solar">
-        <h3>Solar en Beraka</h3>
-        <div class="ficha-solar">
-          <p>
-            <strong>Ficha secundaria pendiente.</strong> Las cifras solares
-            están en conflicto entre fuentes y no aparecen en la salida
-            pública hasta su aprobación (OT-Q006). Sin cifras bloqueadas en
-            este HTML.
-          </p>
-        </div>
-      </div>
+      <BloqueInfraestructura />
     </div>
   </section>
 

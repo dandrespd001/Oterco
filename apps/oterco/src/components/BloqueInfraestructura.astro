@@ -1,0 +1,78 @@
+---
+/**
+ * OT-06 — Operación e infraestructura: bebederos, feedlot, cobertizo y
+ * ficha solar secundaria deshabilitada.
+ *
+ * Bloque declarativo sin cifras propias: no emite potencias, superficies,
+ * capacidades ni rendimientos (OT-Q006: solar en conflicto O-D04; tampoco
+ * suma capacidades ni hectáreas ganaderas). La ficha solar existe como
+ * ancla (#solar, válida en navegacion.ts) pero solo informa la omisión;
+ * sin cifras bloqueadas en la salida. El cobertizo se documenta como
+ * subapartado de texto: su foto vive en el bloque de ganado (O-IMG03)
+ * y aquí no se duplica ningún slot.
+ *
+ * Fotos mediante FotoPendiente (resolverRecurso real): bebederos →
+ * O-IMG04 (contención .detalle-vertical), feedlot → O-IMG05,
+ * solar → O-IMG06 (slot deshabilitado junto a la ficha).
+ *
+ * Trazabilidad editorial: los párrafos redactados (no literales) llevan
+ * `data-fuente="O-D02"` + `data-tratamiento="resumen"`. Los códigos de
+ * caso (OT-Q023/OT-Q006) viven solo en comentarios HTML, nunca en el
+ * texto publicable.
+ */
+import FotoPendiente from "./FotoPendiente.astro";
+---
+
+<div class="subapartado" id="bebederos">
+  <h3>Bebederos y agua</h3>
+  <p data-fuente="O-D02" data-tratamiento="resumen">
+    Agua permanente y bebederos techados como detalle de operación. La
+    foto vertical se contiene en columna de detalle: nunca a todo el
+    ancho ni ampliada por encima de su resolución.
+  </p>
+  <!-- OT-Q023: bebedero O-IMG04 485x650 contenido con .detalle-vertical. -->
+  <FotoPendiente
+    sourceId="O-IMG04"
+    clase="detalle-vertical"
+    titulo="Imagen pendiente de aprobación"
+    descripcion="Composición contenida y proporcional, sin ampliación ni recorte."
+  />
+</div>
+<div class="subapartado" id="feedlot">
+  <h3>Feedlot y praderas</h3>
+  <p data-fuente="O-D02" data-tratamiento="resumen">
+    Corrales, praderas y feedlot con sorgo forrajero propio como
+    subapartado con ancla propia; imagen de infraestructura solo tras
+    aprobación. Sin rendimientos, formulaciones ni disponibilidad anual.
+  </p>
+  <FotoPendiente
+    sourceId="O-IMG05"
+    titulo="Imagen pendiente de aprobación"
+    descripcion="Infraestructura de terminación: foto propia autorizada, cuando exista."
+  />
+</div>
+<div class="subapartado" id="cobertizo">
+  <h3>Cobertizo y manejo diario</h3>
+  <p data-fuente="O-D02" data-tratamiento="resumen">
+    El cobertizo de manejo comparte subapartado con la operación diaria;
+    su imagen de referencia se reserva una sola vez en el bloque de
+    ganado y no se duplica aquí para llenar espacio.
+  </p>
+</div>
+<div class="subapartado" id="solar">
+  <h3>Solar en Beraka</h3>
+  <div class="ficha-solar" data-estado="pendienteAP">
+    <p>
+      <strong>Ficha secundaria pendiente.</strong> Las cifras solares
+      están en conflicto entre fuentes y no aparecen en la salida
+      pública hasta su aprobación. Sin cifras bloqueadas en
+      este HTML.
+      <!-- OT-Q006: solar en conflicto O-D04; ficha deshabilitada sin cifras. -->
+    </p>
+    <FotoPendiente
+      sourceId="O-IMG06"
+      titulo="Imagen pendiente de aprobación"
+      descripcion="Vista del proyecto solar: foto propia autorizada, cuando exista."
+    />
+  </div>
+</div>

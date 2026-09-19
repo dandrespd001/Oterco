@@ -1,0 +1,28 @@
+---
+/**
+ * OT-06 — Bloque de oferta al comprador (tres filas editoriales).
+ *
+ * Consume la proyección pública de OT-02 vía props (la página importa
+ * `proyeccionPublica(perfilBase)` de forma real y pasa `publica.oferta`).
+ * Títulos y descripciones literales llegan por datos: este archivo no
+ * duplica ningún literal de `perfil.datos.ts` (OT-Q009). Trazabilidad
+ * in-code con data-fuente="O-D01" por fila (OT-Q007).
+ */
+import type { LineaPublica } from "../config/publicacion";
+
+interface Props {
+  oferta: readonly LineaPublica[];
+}
+
+const { oferta } = Astro.props;
+---
+
+{oferta.map((linea) => (
+  <article class="fila-oferta" data-fuente="O-D01">
+    <p class="fila-oferta__categoria">{linea.categoria}</p>
+    <div>
+      <h3>{linea.titulo}</h3>
+      <p>{linea.descripcion}</p>
+    </div>
+  </article>
+))}

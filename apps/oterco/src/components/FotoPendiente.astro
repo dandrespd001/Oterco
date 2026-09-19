@@ -1,0 +1,68 @@
+---
+/**
+ * OT-06 — Espacio de imagen pendiente de aprobación (único slot reutilizable).
+ *
+ * Cada lugar de foto de los capítulos resuelve su recurso con
+ * `resolverRecurso(sourceId)` de resources.ts. Sin derivados aprobados
+ * (OT-03: DERIVADOS vacío) la resolución es siempre `ausente` y el slot
+ * informa el motivo; se emite un placeholder estructural accesible:
+ * elemento figure SIN elemento img, sin base64, sin stock ni foto ajena. Texto fijo
+ * "fotografía pendiente de aprobación" + fuente documental; nunca el alt
+ * original de la fuente (OT-Q024: ese alt NO identifica raza ni propiedad).
+ *
+ * Reserva de dimensiones (OT-Q022): el slot declara data-source y data-dims
+ * (huella documental de resources.ts) y reserva proporción con
+ * aspect-ratio; el bebedero vertical 485×650 además se contiene con la
+ * clase .detalle-vertical (OT-Q023: columna de detalle, máx. ~560 px de
+ * alto, sin ampliación ni recorte engañoso).
+ *
+ * Rama futura: cuando el operador aporte derivados, la unidad de
+ * aprobación añade aquí la figura publicada (puertas
+ * `esPublicableDerivado` + `altParaPublicar`, nunca este placeholder
+ * como contenido). Hoy no existe tal rama: cero elementos img en fuentes y dist.
+ */
+import {
+  fuenteOriginalDe,
+  resolverRecurso,
+  type SourceId,
+} from "../assets/resources";
+
+interface Props {
+  /** Huella documental O-IMG01..O-IMG06 (trazabilidad, no contenido). */
+  sourceId: SourceId;
+  /** Título declarativo del slot (p. ej. "Capítulo Beraka"). */
+  titulo: string;
+  /** Descripción corta del encuadre reservado, sin certificar nada. */
+  descripcion: string;
+  /** Clase extra de composición (p. ej. "detalle-vertical" en bebederos). */
+  clase?: string;
+}
+
+const { sourceId, titulo, descripcion, clase = "" } = Astro.props;
+const resolucion = resolverRecurso(sourceId);
+const original = fuenteOriginalDe(sourceId);
+const dims = `${original.widthOriginal}x${original.heightOriginal}`;
+const proporcion = `${original.widthOriginal} / ${original.heightOriginal}`;
+const etiqueta = `Espacio de imagen reservado, pendiente de aprobación (${sourceId}, ${dims})`;
+const motivo =
+  resolucion.estado === "ausente" ? ` Motivo: ${resolucion.motivo}` : "";
+---
+
+<figure
+  class={["foto-pendiente", clase].filter(Boolean).join(" ")}
+  data-estado="pendienteAP"
+  data-source={sourceId}
+  data-dims={dims}
+  data-fuente={sourceId}
+  style={`aspect-ratio: ${proporcion};`}
+  role="note"
+  aria-label={etiqueta}
+>
+  <strong>{titulo}</strong>
+  <span>fotografía pendiente de aprobación</span>
+  <figcaption>
+    {descripcion} Fuente documental O-D02; afirmación de origen sin
+    licencias registradas. Espacio reservado {dims}; sin imagen publicada
+    hasta aprobación del operador.{motivo}
+  </figcaption>
+</figure>

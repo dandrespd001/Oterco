@@ -1,0 +1,51 @@
+---
+/**
+ * OT-06 — Ganado y manejo: galería sobria + roles por finca.
+ *
+ * Consume la proyección pública de OT-02 vía props (la página importa
+ * `proyeccionPublica(perfilBase)` de forma real y pasa `publica.fincas`).
+ * Los roles de manejo por finca se derivan de los datos (nombre y función
+ * de cada finca); este archivo no duplica literales de `perfil.datos.ts`
+ * (OT-Q009) y no añade afirmaciones nuevas.
+ *
+ * Sin afirmaciones genéticas (OT-Q024): el slot O-IMG03 es solo reserva
+ * de composición; su pie no certifica raza ni propiedad a partir de la
+ * imagen, y el texto no atribuye genética, pureza ni titularidad. Los
+ * pilares de manejo esperan transcripción aprobada (OT-02/OT-15) y no se
+ * redactan aquí.
+ *
+ * Trazabilidad editorial: los párrafos redactados (no literales) llevan
+ * `data-fuente="O-D01"` + `data-tratamiento="resumen"`; solo el listado
+ * de roles (`{nombre}: {funcion}`) es transcripción literal por props.
+ */
+import type { FincaPublica } from "../config/publicacion";
+import FotoPendiente from "./FotoPendiente.astro";
+
+interface Props {
+  fincas: readonly FincaPublica[];
+}
+
+const { fincas } = Astro.props;
+---
+
+<p data-fuente="O-D01" data-tratamiento="resumen">
+  El hato se maneja por capítulos territoriales: cada finca concentra una
+  etapa del ciclo y comparte los protocolos de la empresa.
+</p>
+<ul data-fuente="O-D01">
+  {fincas.map((finca) => (
+    <li>
+      {finca.nombre}: {finca.funcion}
+    </li>
+  ))}
+</ul>
+<p data-fuente="O-D01" data-tratamiento="resumen">
+  Estructura reservada para la galería sobria y los pilares de manejo. El
+  contenido textual espera transcripción aprobada (OT-02/OT-15); este
+  bloque no afirma razas, genética ni propiedad a partir de imágenes.
+</p>
+<FotoPendiente
+  sourceId="O-IMG03"
+  titulo="Galería pendiente de aprobación"
+  descripcion="Díptico deliberado solo con derivados aprobados, cuando existan."
+/>
