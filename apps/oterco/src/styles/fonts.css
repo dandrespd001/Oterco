@@ -1,0 +1,48 @@
+/* OT-03: tipografías locales con @font-face y font-display: swap.
+ *
+ * Familias: Libre Caslon Display (titulares) y Work Sans (texto/UI).
+ * Solo pesos útiles, WOFF2 local en ../assets/fonts/. Sin CDN ni Google
+ * Fonts en runtime: este fichero no contiene ninguna URL remota.
+ *
+ * Estado: los binarios .woff2 y sus LICENSE los aporta el operador desde
+ * distribución autorizada (ver docs/implementacion/OT-03/LICENCIAS_TIPOGRAFICAS.md
+ * y src/assets/fonts/README.md). Hasta entonces, este fichero NO se importa
+ * desde ninguna página: el fallback es el stack del sistema en base.css.
+ */
+
+@font-face {
+  font-family: "Libre Caslon Display";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/libre-caslon-display-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Work Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/work-sans-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Work Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../assets/fonts/work-sans-500.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Work Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../assets/fonts/work-sans-700.woff2") format("woff2");
+}
+
+:root {
+  --font-display: "Libre Caslon Display", Georgia, "Times New Roman", serif;
+  --font-texto: "Work Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}

@@ -6,7 +6,7 @@ El coordinador mantiene este registro; las fichas conservan sus criterios. Ningu
 |---|---|---|---|---|
 | OT-01 | REALIZADA | Commit `481f4f4` (raíz) · push a origin/master | docs/implementacion/OT-01/EVIDENCIA.md, VERSIONES.md | OT-02 tras cierre de OT-Q003 en copia limpia/CI |
 | OT-02 | REALIZADA (con ajustes) | Commit `1c5b5b6` | docs/implementacion/OT-02/EVIDENCIA.md | OT-03 (extracción de recursos); aprobaciones datos → OT-15 |
-| OT-03 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
+| OT-03 | REALIZADA (parcial por bloqueo de originales) | Commit tras ajustes H1-H4/H8 | docs/implementacion/OT-03/EVIDENCIA.md | Operador: extraer.py + originales, .woff2 + licencias; verificación de huellas y OT-Q011 al aprobarse binarios |
 | OT-04 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
 | OT-05 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
 | OT-06 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |

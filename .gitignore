@@ -13,6 +13,9 @@ Thumbs.db
 # Referencias privadas: nunca se publican ni se versionan derivados sin aprobación
 .private-references/
 
+# Derivados pendientes de aprobación: bytes no versionados antes de aprobación
+apps/oterco/src/assets/derivados/
+
 # Secretos y entorno local: prohibidos en el repo
 .env
 .env.*
