@@ -17,10 +17,13 @@ Autorización: instrucción explícita del operador en sesión ("inicia OT-01 si
 - Pruebas: OT-Q001 ✓, OT-Q003 ✓ parcial (falta repetición en copia limpia), OT-Q004 ✓, OT-Q049 pendiente de cierre con acta del coordinador.
 - Limitaciones: sharp sin binario en este host (sin uso en OT-01); aviso pnpm 12 ignorado deliberadamente.
 
-## Remoto indicado por el operador
+## Remoto indicado por el operador — ACTUALIZADO
 
-- GitHub: `git@github.com:dandrespd001/Oterco.git` / `https://github.com/dandrespd001/Oterco.git`
-- **No configurado todavía** (git remote add no ejecutado por agentes; push fuera del alcance de agentes). Rama actual: `master`.
+- Autorización explícita del operador (sesión 2026-09-19) para configurar el remoto, hacer el primer commit y el primer push.
+- `git remote add origin https://github.com/dandrespd001/Oterco.git` — OK.
+- Identidad git: solo a nivel de repo (`user.name dandrespd001`, `user.email dandrespd001@users.noreply.github.com`).
+- Primer commit raíz: `481f4f4` "OT-01: inicializacion OTERCO - base Astro estatica, workspace pnpm, lockfile y documentacion" (103 ficheros, +7810).
+- `git push -u origin master` — OK: rama `master` nueva en GitHub, tracking configurado. Sin publicación ni hosting; el push no autoriza publicación de la web.
 
 ## Pendientes (operador)
 

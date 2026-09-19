@@ -4,7 +4,7 @@ El coordinador mantiene este registro; las fichas conservan sus criterios. Ningu
 
 | ID | Estado | Commit/diff | Evidencia | Siguiente acción |
 |---|---|---|---|---|
-| OT-01 | REALIZADA (unitaria) | Repo init + diff completo en `git status`; sin commit | docs/implementacion/OT-01/EVIDENCIA.md, VERSIONES.md | Primer commit + `git remote add origin` (operador); repetición en copia limpia/CI |
+| OT-01 | REALIZADA | Commit `481f4f4` (raíz) · push a origin/master | docs/implementacion/OT-01/EVIDENCIA.md, VERSIONES.md | OT-02 tras cierre de OT-Q003 en copia limpia/CI |
 | OT-02 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
 | OT-03 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
 | OT-04 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
