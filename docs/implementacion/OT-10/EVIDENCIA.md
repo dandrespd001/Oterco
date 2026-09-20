@@ -86,3 +86,19 @@ Comandos re-ejecutados tras los ajustes (exit codes registrados):
 Coordinador: registrar OT-10 como REALIZADA-parcial (programático verde +
 manual pendiente del operador), archivar capturas/axe al recibirse y continuar
 OT-11. No se finge revisión visual.
+
+## Nota OT-11 (2026-09-20) — reversión del `<style>` embebido OT-10.F4
+
+Por decisión de la coordinadora se revierte el embed del ajuste F4 de cierre
+(`apps/oterco/public/404.html`: bloque de estilos del skip-link + `:focus`):
+la CSP vigente es estricta (`script-src 'none'`, sin `style-src`, sin
+`'unsafe-inline'` por criterio OT-08) y el `<style>` autónomo quedaría
+bloqueado con CSP aplicada a futuro (riesgo R1 de OT-11, Q042). Vía (c):
+cero estilos inline en `dist/*.html`.
+
+La 404 conserva el skip-link a `#contenido` funcional y visible en flujo
+nativo (sin posicionamiento absoluto, foco por defecto del navegador),
+`noindex`, H1 propio y carácter estático. La fila H7 del INFORME.md
+("404 sin hoja de estilos, foco por defecto del navegador") vuelve a ser la
+descripción vigente; el INFORME no se edita aquí por límite de alcance — el
+coordinador lo actualiza al archivar.

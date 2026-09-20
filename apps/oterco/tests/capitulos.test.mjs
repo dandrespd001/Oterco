@@ -11,7 +11,8 @@
  *   `perfil.datos.ts` (y los estructurales, en `perfil.esperado.ts`); los
  *   bloques solo interpolan props.
  * OT-Q022: los placeholders reservan dimensiones coherentes con la huella
- *   documental interna (data-dims + aspect-ratio, sin IDs en dist), sin <img>.
+ *   documental interna (data-dims + clase .slot--WxH con aspect-ratio en
+ *   base.css, sin IDs ni style attributes en dist), sin <img>.
  *   La correspondencia huella↔slot se verifica por orden de documento
  *   contra FUENTES_ORIGINALES (código), no por atributos trazadores.
  * OT-Q023: el bebedero vertical (485×650) se contiene proporcional en su
@@ -54,8 +55,10 @@ function uiCombinada() {
 }
 
 /** Slots del compilado: figure.foto-pendiente[data-dims], en orden de documento.
- * Sin IDs internos en dist: la correspondencia con la huella se verifica por
- * posición contra FUENTES_ORIGINALES (fincas 01–02, manejo 03, infra 04–06). */
+ * Sin IDs internos ni style attributes en dist (OT-11, CSP estricta): la
+ * proporción vive en la clase .slot--WxH de base.css. La correspondencia con
+ * la huella se verifica por posición contra FUENTES_ORIGINALES
+ * (fincas 01–02, manejo 03, infra 04–06). */
 function slotsDist() {
   const slots = [];
   for (const m of html.matchAll(/<figure\b([^>]*)>/gi)) {
@@ -64,8 +67,9 @@ function slotsDist() {
     const dims = /data-dims="(\d+x\d+)"/.exec(attrs)?.[1];
     if (!dims) continue;
     const pendiente = /data-estado="pendienteAP"/.test(attrs);
-    const ratio = /style="[^"]*aspect-ratio:\s*(\d+)\s*\/\s*(\d+)/.exec(attrs);
-    slots.push({ dims, pendiente, ratio });
+    const clase = /slot--(\d+x\d+)/.exec(attrs)?.[1] ?? null;
+    const conEstilo = /\sstyle\s*=/.test(attrs);
+    slots.push({ dims, pendiente, clase, conEstilo });
   }
   return slots;
 }
@@ -137,12 +141,14 @@ describe("OT-Q022 reserva de dimensiones sin fotografía publicada", () => {
     assert.equal(slots.length, 6, "seis slots en orden de documento");
     FUENTES_ORIGINALES.forEach((f, i) => {
       const slot = slots[i];
+      const esperadas = `${f.widthOriginal}x${f.heightOriginal}`;
       assert.ok(slot, `slot ${i + 1}/6 presente (huella ${f.sourceId} en código)`);
-      assert.equal(slot.dims, `${f.widthOriginal}x${f.heightOriginal}`, `slot ${i + 1}: dims de la huella`);
+      assert.equal(slot.dims, esperadas, `slot ${i + 1}: dims de la huella`);
       assert.equal(slot.pendiente, true, `slot ${i + 1}: marcado pendienteAP`);
-      assert.ok(slot.ratio, `slot ${i + 1}: aspect-ratio en línea`);
-      assert.equal(Number(slot.ratio[1]), f.widthOriginal, `slot ${i + 1}: proporción coherente (w)`);
-      assert.equal(Number(slot.ratio[2]), f.heightOriginal, `slot ${i + 1}: proporción coherente (h)`);
+      assert.equal(slot.conEstilo, false, `slot ${i + 1}: sin style attribute (CSP estricta, OT-11)`);
+      assert.equal(slot.clase, esperadas, `slot ${i + 1}: clase .slot--${esperadas} con la proporción`);
+      const [w, h] = esperadas.split("x").map(Number);
+      assert.ok(new RegExp(`\\.slot--${w}x${h}\\s*\\{[\\s\\S]*?aspect-ratio:\\s*${w}\\s*/\\s*${h}`).test(css), `slot ${i + 1}: aspect-ratio ${w}/${h} declarado en base.css`);
     });
   });
 

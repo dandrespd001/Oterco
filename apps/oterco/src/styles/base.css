@@ -492,13 +492,35 @@ a[data-estado="pendienteAP"] {
 }
 
 /* Slots de imagen pendiente (FotoPendiente.astro).
- * Cada figure declara data-dims (solo dimensiones) y
- * reserva proporción con aspect-ratio en línea: sin <img> no hay píxel
- * que ampliar ni recortar, solo reserva estructural accesible.
- * Dimensiones coherentes con la huella documental interna; la figura
- * nunca deforma su reserva (la futura foto usará object-fit contenido). */
+ * Cada figure declara data-dims (solo dimensiones) y reserva proporción con
+ * una clase utilitaria .slot--WxH (OT-11, vía (c)): cero style attributes en
+ * dist, compatible con CSP estricta (script-src 'none', sin 'unsafe-inline').
+ * Sin <img> no hay píxel que ampliar ni recortar, solo reserva estructural
+ * accesible. Dimensiones coherentes con la huella documental interna; la
+ * figura nunca deforma su reserva (la futura foto usará object-fit contenido).
+ * Seis originales ⇒ cinco clases (O-IMG02 y O-IMG03 comparten 1100×733). */
 figure.foto-pendiente {
   margin-inline: 0;
+}
+
+figure.foto-pendiente.slot--603x423 {
+  aspect-ratio: 603 / 423;
+}
+
+figure.foto-pendiente.slot--1100x733 {
+  aspect-ratio: 1100 / 733;
+}
+
+figure.foto-pendiente.slot--485x650 {
+  aspect-ratio: 485 / 650;
+}
+
+figure.foto-pendiente.slot--1208x605 {
+  aspect-ratio: 1208 / 605;
+}
+
+figure.foto-pendiente.slot--986x638 {
+  aspect-ratio: 986 / 638;
 }
 
 figure.foto-pendiente figcaption {
@@ -507,13 +529,13 @@ figure.foto-pendiente figcaption {
 }
 
 /* Bebedero vertical (485×650): composición
- * contenida y proporcional. La proporción 485 / 650 se declara aquí en
- * la ficha (además del aspect-ratio en línea del slot) con tope de
- * columna de detalle y alto máximo ~560 px: nunca a todo el ancho del
- * contenedor, nunca ampliado, nunca recortado de forma engañosa. Nota
- * de composición registrada junto a la regla, no solo en un comentario. */
+ * contenida y proporcional. La proporción 485 / 650 la aporta la clase
+ * utilitaria .slot--485x650 (OT-11, sin estilos inline); esta regla solo
+ * añade los topes de columna de detalle y alto máximo ~560 px: nunca a
+ * todo el ancho del contenedor, nunca ampliado, nunca recortado de forma
+ * engañosa. Nota de composición registrada junto a la regla, no solo en
+ * un comentario. */
 figure.foto-pendiente.detalle-vertical[data-dims="485x650"] {
-  aspect-ratio: 485 / 650;
   max-width: 22rem;
   max-height: 35rem; /* 560 px */
   margin-inline: auto;

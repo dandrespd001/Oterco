@@ -11,10 +11,11 @@
  * original de la fuente (ese alt NO identifica raza ni propiedad).
  *
  * Reserva de dimensiones: el slot declara data-dims (huella documental de
- * resources.ts, solo dimensiones) y reserva proporción con
- * aspect-ratio; el bebedero vertical 485×650 además se contiene con la
- * clase .detalle-vertical (columna de detalle, máx. ~560 px de
- * alto, sin ampliación ni recorte engañoso).
+ * resources.ts, solo dimensiones) y reserva proporción con una clase
+ * utilitaria .slot--WxH de base.css (OT-11, vía (c)): cero style attributes
+ * en dist, compatible con CSP estricta. El bebedero vertical 485×650 además
+ * se contiene con la clase .detalle-vertical (columna de detalle, máx.
+ * ~560 px de alto, sin ampliación ni recorte engañoso).
  *
  * Trazabilidad interna fuera del HTML público: el sourceId vive solo en
  * código (props, resources.ts); en dist no se emiten data-fuente,
@@ -48,7 +49,16 @@ const { sourceId, titulo, descripcion, clase = "" } = Astro.props;
 const resolucion = resolverRecurso(sourceId);
 const original = fuenteOriginalDe(sourceId);
 const dims = `${original.widthOriginal}x${original.heightOriginal}`;
-const proporcion = `${original.widthOriginal} / ${original.heightOriginal}`;
+/* OT-11 (c) — proporción como clase estática de base.css, sin inline styles:
+   seis originales ⇒ cinco clases (O-IMG02 y O-IMG03 comparten 1100x733). */
+const CLASES_PROPORCION: Record<string, string> = {
+  "603x423": "slot--603x423",
+  "1100x733": "slot--1100x733",
+  "485x650": "slot--485x650",
+  "1208x605": "slot--1208x605",
+  "986x638": "slot--986x638",
+};
+const claseProporcion = CLASES_PROPORCION[dims] ?? "";
 /* Etiqueta neutra: sin sourceId ni dims codificados como trazabilidad. */
 const etiqueta = "Espacio de imagen reservado, pendiente de aprobación";
 /* Motivo neutro en dist: resolverRecurso se consume de forma real, pero su
@@ -60,10 +70,9 @@ const motivo =
 ---
 
 <figure
-  class={["foto-pendiente", clase].filter(Boolean).join(" ")}
+  class={["foto-pendiente", claseProporcion, clase].filter(Boolean).join(" ")}
   data-estado="pendienteAP"
   data-dims={dims}
-  style={`aspect-ratio: ${proporcion};`}
   role="note"
   aria-label={etiqueta}
 >

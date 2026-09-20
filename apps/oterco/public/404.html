@@ -16,29 +16,13 @@
     <title>Página no encontrada (404) — OTERCO (fixture, no publicable)</title>
     <!-- canonical pendienteAP: sin dominio aprobado no se emite URL real. -->
     <!--
-      OT-10.F4 — CSS mínimo embebido solo para el patrón skip-link: la 404 no
-      puede referenciar el bundle con hash (dist/_astro/*.css), así que replica
-      los valores literales de base.css (.skip-link + :focus-visible). Sin
-      scripts, sin noindex alterado, sin red ni referencias externas.
+      OT-11 (Q042) — Sin elemento style embebido: el bloque OT-10.F4 se
+      revierte por decisión de la coordinadora para una CSP eficaz a futuro
+      (sin 'unsafe-inline'). La 404 no referencia el bundle con hash; el
+      skip-link queda funcional y visible en flujo nativo (sin
+      posicionamiento absoluto): enlaces y foco por defecto del navegador.
+      Sin scripts, sin noindex alterado, sin red ni referencias externas.
     -->
-    <style>
-      .skip-link {
-        position: absolute;
-        left: 0.5rem;
-        top: -4rem;
-        background: #1f3327;
-        color: #ede6d2;
-        padding: 0.6rem 1rem;
-        font-weight: 600;
-      }
-      .skip-link:focus {
-        top: 0.5rem;
-      }
-      a:focus-visible {
-        outline: 3px solid #1f3327;
-        outline-offset: 3px;
-      }
-    </style>
   </head>
   <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
