@@ -1,0 +1,4 @@
+# OT-08 robots — base reservada NO-BINDING pendienteAP (OT-15/OT-16):
+# https://oterco-pendiente-ap.invalid — este host nunca resuelve; no es un dominio real.
+User-agent: *
+Disallow: /

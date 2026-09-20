@@ -11,7 +11,9 @@
  *   `perfil.datos.ts` (y los estructurales, en `perfil.esperado.ts`); los
  *   bloques solo interpolan props.
  * OT-Q022: los placeholders reservan dimensiones coherentes con la huella
- *   documental (data-source/data-dims + aspect-ratio), sin <img>.
+ *   documental interna (data-dims + aspect-ratio, sin IDs en dist), sin <img>.
+ *   La correspondencia huella↔slot se verifica por orden de documento
+ *   contra FUENTES_ORIGINALES (código), no por atributos trazadores.
  * OT-Q023: el bebedero vertical (485×650) se contiene proporcional en su
  *   composición: aspect-ratio declarado en CSS y usado, sin ampliación.
  * OT-Q024: ningún texto certifica raza o propiedad a partir de una imagen:
@@ -51,17 +53,19 @@ function uiCombinada() {
   return UI_OT06.map((f) => readFileSync(f, "utf-8")).join("\n");
 }
 
-/** Slots del compilado: figure[data-source][data-dims]. */
+/** Slots del compilado: figure.foto-pendiente[data-dims], en orden de documento.
+ * Sin IDs internos en dist: la correspondencia con la huella se verifica por
+ * posición contra FUENTES_ORIGINALES (fincas 01–02, manejo 03, infra 04–06). */
 function slotsDist() {
   const slots = [];
   for (const m of html.matchAll(/<figure\b([^>]*)>/gi)) {
     const attrs = m[1];
-    const source = /data-source="(O-IMG0\d)"/.exec(attrs)?.[1];
-    if (!source) continue;
+    if (!/foto-pendiente/.test(attrs)) continue;
     const dims = /data-dims="(\d+x\d+)"/.exec(attrs)?.[1];
+    if (!dims) continue;
     const pendiente = /data-estado="pendienteAP"/.test(attrs);
     const ratio = /style="[^"]*aspect-ratio:\s*(\d+)\s*\/\s*(\d+)/.exec(attrs);
-    slots.push({ source, dims, pendiente, ratio });
+    slots.push({ dims, pendiente, ratio });
   }
   return slots;
 }
@@ -86,11 +90,15 @@ describe("OT-Q007 capítulos y oferta del compilado según transcripción", () =
     }
   });
 
-  it("trazabilidad in-code: data-fuente O-D01/O-D02/O-IMG en bloques y slots", () => {
-    assert.ok(html.includes('data-fuente="O-D01"'), "contenido trazado a O-D01");
-    assert.ok(html.includes('data-fuente="O-D02"'), "infraestructura trazada a O-D02");
+  it("trazabilidad interna fuera de dist: viva en código, ausente en el compilado", () => {
+    for (const literal of ["data-fuente", "O-D0", "O-IMG0", "OT-Q", "09_FUENTES"]) {
+      assert.ok(!html.includes(literal), `dist sin «${literal}»`);
+    }
+    const ui = uiCombinada();
+    assert.ok(ui.includes("O-D01"), "código traza contenido a O-D01");
+    assert.ok(ui.includes("O-D02"), "código traza infraestructura a O-D02");
     for (const f of FUENTES_ORIGINALES) {
-      assert.ok(html.includes(`data-fuente="${f.sourceId}"`), `slot trazado a ${f.sourceId}`);
+      assert.ok(ui.includes(f.sourceId), `código traza slot a ${f.sourceId}`);
     }
   });
 });
@@ -126,16 +134,16 @@ describe("OT-Q022 reserva de dimensiones sin fotografía publicada", () => {
     assert.ok(!/<img[\s>]/i.test(html), "dist sin <img>");
     assert.ok(!/data:image\/[a-zA-Z0-9.+-]+;base64,/i.test(html), "dist sin base64");
     const slots = slotsDist();
-    assert.equal(slots.length, 6, "seis slots, uno por huella O-IMG01..O-IMG06");
-    for (const f of FUENTES_ORIGINALES) {
-      const slot = slots.find((s) => s.source === f.sourceId);
-      assert.ok(slot, `slot ${f.sourceId} presente`);
-      assert.equal(slot.dims, `${f.widthOriginal}x${f.heightOriginal}`, `${f.sourceId}: dims de la huella`);
-      assert.equal(slot.pendiente, true, `${f.sourceId}: marcado pendienteAP`);
-      assert.ok(slot.ratio, `${f.sourceId}: aspect-ratio en línea`);
-      assert.equal(Number(slot.ratio[1]), f.widthOriginal, `${f.sourceId}: proporción coherente (w)`);
-      assert.equal(Number(slot.ratio[2]), f.heightOriginal, `${f.sourceId}: proporción coherente (h)`);
-    }
+    assert.equal(slots.length, 6, "seis slots en orden de documento");
+    FUENTES_ORIGINALES.forEach((f, i) => {
+      const slot = slots[i];
+      assert.ok(slot, `slot ${i + 1}/6 presente (huella ${f.sourceId} en código)`);
+      assert.equal(slot.dims, `${f.widthOriginal}x${f.heightOriginal}`, `slot ${i + 1}: dims de la huella`);
+      assert.equal(slot.pendiente, true, `slot ${i + 1}: marcado pendienteAP`);
+      assert.ok(slot.ratio, `slot ${i + 1}: aspect-ratio en línea`);
+      assert.equal(Number(slot.ratio[1]), f.widthOriginal, `slot ${i + 1}: proporción coherente (w)`);
+      assert.equal(Number(slot.ratio[2]), f.heightOriginal, `slot ${i + 1}: proporción coherente (h)`);
+    });
   });
 
   it("cada slot declara fotografía pendiente + fuente, sin alt original", () => {
@@ -148,7 +156,7 @@ describe("OT-Q022 reserva de dimensiones sin fotografía publicada", () => {
 
 /* OT-Q023 — Bebedero contenido proporcional, sin ampliación engañosa. */
 describe("OT-Q023 bebedero vertical contenido en su composición", () => {
-  it("slot O-IMG04 con dims 485x650 dentro del subapartado #bebederos", () => {
+  it("slot vertical 485x650 dentro del subapartado #bebederos", () => {
     const bebederos = /id="bebederos"[\s\S]*?data-dims="485x650"/.test(html);
     assert.ok(bebederos, "#bebederos contiene el slot 485x650");
     assert.ok(/detalle-vertical/.test(html), "clase de contención usada");
@@ -196,6 +204,6 @@ describe("OT-Q024 textos sin certificar raza ni propiedad", () => {
     assert.ok(!html.includes("contacto@"), "sin buzón sin verificar");
     assert.ok(!html.includes("830.128"), "sin NIT sin confirmar");
     assert.ok(!html.includes("Fotografias tomadas"), "sin afirmación de origen sin licencias");
-    assert.ok(html.includes("solar: omitido"), "omisión solar informada al operador");
+    assert.ok(html.includes("detalle interno reservado"), "omisión informada en neutro, sin códigos internos");
   });
 });

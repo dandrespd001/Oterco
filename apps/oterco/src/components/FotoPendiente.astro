@@ -8,13 +8,19 @@
  * informa el motivo; se emite un placeholder estructural accesible:
  * elemento figure SIN elemento img, sin base64, sin stock ni foto ajena. Texto fijo
  * "fotografía pendiente de aprobación" + fuente documental; nunca el alt
- * original de la fuente (OT-Q024: ese alt NO identifica raza ni propiedad).
+ * original de la fuente (ese alt NO identifica raza ni propiedad).
  *
- * Reserva de dimensiones (OT-Q022): el slot declara data-source y data-dims
- * (huella documental de resources.ts) y reserva proporción con
+ * Reserva de dimensiones: el slot declara data-dims (huella documental de
+ * resources.ts, solo dimensiones) y reserva proporción con
  * aspect-ratio; el bebedero vertical 485×650 además se contiene con la
- * clase .detalle-vertical (OT-Q023: columna de detalle, máx. ~560 px de
+ * clase .detalle-vertical (columna de detalle, máx. ~560 px de
  * alto, sin ampliación ni recorte engañoso).
+ *
+ * Trazabilidad interna fuera del HTML público: el sourceId vive solo en
+ * código (props, resources.ts); en dist no se emiten data-fuente,
+ * data-source, códigos O-D/O-IMG/OT-Q ni rutas 09_FUENTES. El pie visible
+ * usa texto neutro ("fuente interna reservada", "fotografía de la finca
+ * — pendiente de aprobación").
  *
  * Rama futura: cuando el operador aporte derivados, la unidad de
  * aprobación añade aquí la figura publicada (puertas
@@ -43,17 +49,20 @@ const resolucion = resolverRecurso(sourceId);
 const original = fuenteOriginalDe(sourceId);
 const dims = `${original.widthOriginal}x${original.heightOriginal}`;
 const proporcion = `${original.widthOriginal} / ${original.heightOriginal}`;
-const etiqueta = `Espacio de imagen reservado, pendiente de aprobación (${sourceId}, ${dims})`;
+/* Etiqueta neutra: sin sourceId ni dims codificados como trazabilidad. */
+const etiqueta = "Espacio de imagen reservado, pendiente de aprobación";
+/* Motivo neutro en dist: resolverRecurso se consume de forma real, pero su
+   motivo interno (rutas de extracción) no se emite al HTML público. */
 const motivo =
-  resolucion.estado === "ausente" ? ` Motivo: ${resolucion.motivo}` : "";
+  resolucion.estado === "ausente"
+    ? " Motivo: sin derivado generado; pendiente de aprobación del operador."
+    : "";
 ---
 
 <figure
   class={["foto-pendiente", clase].filter(Boolean).join(" ")}
   data-estado="pendienteAP"
-  data-source={sourceId}
   data-dims={dims}
-  data-fuente={sourceId}
   style={`aspect-ratio: ${proporcion};`}
   role="note"
   aria-label={etiqueta}
@@ -61,8 +70,7 @@ const motivo =
   <strong>{titulo}</strong>
   <span>fotografía pendiente de aprobación</span>
   <figcaption>
-    {descripcion} Fuente documental O-D02; afirmación de origen sin
-    licencias registradas. Espacio reservado {dims}; sin imagen publicada
-    hasta aprobación del operador.{motivo}
+    {descripcion} Fuente interna reservada. Fotografía de la finca —
+    pendiente de aprobación.{motivo}
   </figcaption>
 </figure>

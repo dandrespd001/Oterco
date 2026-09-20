@@ -36,12 +36,10 @@ const publica = proyeccionPublica(perfilBase);
         <a class="boton boton--principal" href="#portafolio">Consultar portafolio</a>
         <a class="boton boton--secundario" href="#cierre">Cierre editorial</a>
       </div>
-      <!-- Hero sin slot O-IMG asignado: reserva genérica (no FotoPendiente;
-        los seis slots O-IMG01..O-IMG06 viven en los capítulos). -->
+      <!-- Hero sin foto asignada: reserva genérica (los slots de imagen viven en los capítulos). -->
       <div
         class="foto-pendiente"
         data-estado="pendienteAP"
-        data-source="sin-asignar"
         role="note"
         aria-label="Espacio de imagen reservado, pendiente de aprobación"
       >
@@ -97,11 +95,11 @@ const publica = proyeccionPublica(perfilBase);
       <p>
         El contacto editorial y el preparador local pertenecen a OT-07 y a
         las aprobaciones de OT-15. Este prototipo no publica buzón, dominio,
-        teléfono ni NIT.
+        teléfono ni identificación fiscal.
       </p>
       <h3>Omitidos por puerta editorial (informe al operador)</h3>
       <ul>
-        {publica.omitidos.map((m) => <li>{m}</li>)}
+        {publica.omitidos.map(() => <li>Contenido omitido por puerta editorial (detalle interno reservado).</li>)}
       </ul>
       <p><small>Sin JavaScript: esta página no incluye ningún script.</small></p>
     </div>

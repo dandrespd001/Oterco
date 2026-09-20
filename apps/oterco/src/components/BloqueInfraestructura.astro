@@ -15,22 +15,23 @@
  * O-IMG04 (contención .detalle-vertical), feedlot → O-IMG05,
  * solar → O-IMG06 (slot deshabilitado junto a la ficha).
  *
- * Trazabilidad editorial: los párrafos redactados (no literales) llevan
- * `data-fuente="O-D02"` + `data-tratamiento="resumen"`. Los códigos de
- * caso (OT-Q023/OT-Q006) viven solo en comentarios HTML, nunca en el
- * texto publicable.
+ * Trazabilidad editorial en código (no en dist): los párrafos redactados
+ * (no literales) provienen de O-D02 con tratamiento de resumen; esa
+ * correspondencia vive en este comentario y en los datos, nunca en
+ * atributos data-fuente ni en comentarios HTML emitidos. Los códigos de
+ * caso viven solo en comentarios de código, nunca en el texto publicable.
  */
 import FotoPendiente from "./FotoPendiente.astro";
 ---
 
 <div class="subapartado" id="bebederos">
   <h3>Bebederos y agua</h3>
-  <p data-fuente="O-D02" data-tratamiento="resumen">
+  <p>
     Agua permanente y bebederos techados como detalle de operación. La
     foto vertical se contiene en columna de detalle: nunca a todo el
     ancho ni ampliada por encima de su resolución.
   </p>
-  <!-- OT-Q023: bebedero O-IMG04 485x650 contenido con .detalle-vertical. -->
+  <!-- Bebedero vertical contenido en columna de detalle. -->
   <FotoPendiente
     sourceId="O-IMG04"
     clase="detalle-vertical"
@@ -40,7 +41,7 @@ import FotoPendiente from "./FotoPendiente.astro";
 </div>
 <div class="subapartado" id="feedlot">
   <h3>Feedlot y praderas</h3>
-  <p data-fuente="O-D02" data-tratamiento="resumen">
+  <p>
     Corrales, praderas y feedlot con sorgo forrajero propio como
     subapartado con ancla propia; imagen de infraestructura solo tras
     aprobación. Sin rendimientos, formulaciones ni disponibilidad anual.
@@ -53,7 +54,7 @@ import FotoPendiente from "./FotoPendiente.astro";
 </div>
 <div class="subapartado" id="cobertizo">
   <h3>Cobertizo y manejo diario</h3>
-  <p data-fuente="O-D02" data-tratamiento="resumen">
+  <p>
     El cobertizo de manejo comparte subapartado con la operación diaria;
     su imagen de referencia se reserva una sola vez en el bloque de
     ganado y no se duplica aquí para llenar espacio.
@@ -67,7 +68,7 @@ import FotoPendiente from "./FotoPendiente.astro";
       están en conflicto entre fuentes y no aparecen en la salida
       pública hasta su aprobación. Sin cifras bloqueadas en
       este HTML.
-      <!-- OT-Q006: solar en conflicto O-D04; ficha deshabilitada sin cifras. -->
+      <!-- Ficha solar deshabilitada: sin cifras en la salida pública. -->
     </p>
     <FotoPendiente
       sourceId="O-IMG06"

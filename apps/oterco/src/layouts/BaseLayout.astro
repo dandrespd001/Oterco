@@ -4,8 +4,11 @@
  *
  * Head SEO mínimo: lang es, title/description fixture, robots noindex
  * (página técnica no publicable). Canonical: pendienteAP — sin dominio
- * aprobado no se emite URL real (solo comentario, OT-40 queda para OT-15).
- * Skip-link + Header + main#contenido + Footer. Cero scripts.
+ * aprobado no se emite URL real (solo comentario neutro). Favicon local
+ * (monograma simple, sin marca ajena) y OpenGraph local (og:title,
+ * og:description, og:type desde los metadatos actuales; sin og:url ni
+ * og:image hasta dominio y fotos aprobados). Skip-link + Header +
+ * main#contenido + Footer. Cero scripts.
  */
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
@@ -32,7 +35,11 @@ const {
     <meta name="robots" content={siteConfig.robots} />
     <meta name="description" content={descripcion} />
     <title>{titulo}</title>
-    <!-- OT-05 canonical pendienteAP: sin dominio aprobado no se emite URL real. -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:type" content="website" />
+    <!-- canonical pendienteAP: sin dominio aprobado no se emite URL real. -->
   </head>
   <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>

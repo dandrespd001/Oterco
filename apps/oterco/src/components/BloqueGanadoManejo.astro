@@ -14,9 +14,10 @@
  * pilares de manejo esperan transcripción aprobada (OT-02/OT-15) y no se
  * redactan aquí.
  *
- * Trazabilidad editorial: los párrafos redactados (no literales) llevan
- * `data-fuente="O-D01"` + `data-tratamiento="resumen"`; solo el listado
- * de roles (`{nombre}: {funcion}`) es transcripción literal por props.
+ * Trazabilidad editorial en código (no en dist): los párrafos redactados
+ * (no literales) provienen de O-D01 con tratamiento de resumen; solo el
+ * listado de roles (`{nombre}: {funcion}`) es transcripción literal por
+ * props. La correspondencia vive en este comentario y en los datos.
  */
 import type { FincaPublica } from "../config/publicacion";
 import FotoPendiente from "./FotoPendiente.astro";
@@ -28,18 +29,18 @@ interface Props {
 const { fincas } = Astro.props;
 ---
 
-<p data-fuente="O-D01" data-tratamiento="resumen">
+<p>
   El hato se maneja por capítulos territoriales: cada finca concentra una
   etapa del ciclo y comparte los protocolos de la empresa.
 </p>
-<ul data-fuente="O-D01">
+<ul>
   {fincas.map((finca) => (
     <li>
       {finca.nombre}: {finca.funcion}
     </li>
   ))}
 </ul>
-<p data-fuente="O-D01" data-tratamiento="resumen">
+<p>
   Estructura reservada para la galería sobria y los pilares de manejo. El
   contenido textual espera transcripción aprobada (OT-02/OT-15); este
   bloque no afirma razas, genética ni propiedad a partir de imágenes.

@@ -12,7 +12,8 @@
  * Foto por capítulo mediante FotoPendiente (resolverRecurso real):
  * Beraka → O-IMG01, Puerta Roja → O-IMG02. Disposición asimétrica
  * heredada (territorio / territorio--invertido), sin tarjetas copiadas.
- * Trazabilidad in-code: data-fuente="O-D01" por capítulo (OT-Q007).
+ * Trazabilidad en código (no en dist): un slot documental por capítulo,
+ * en el mismo orden de la proyección (ver SLOTS).
  */
 import type { FincaPublica } from "../config/publicacion";
 import FotoPendiente from "./FotoPendiente.astro";
@@ -30,7 +31,6 @@ const SLOTS = ["O-IMG01", "O-IMG02"] as const;
   <article
     class={i % 2 === 1 ? "territorio territorio--invertido" : "territorio"}
     aria-labelledby={`t-finca-${i}`}
-    data-fuente="O-D01"
   >
     <div>
       <h3 id={`t-finca-${i}`}>{finca.nombre}</h3>

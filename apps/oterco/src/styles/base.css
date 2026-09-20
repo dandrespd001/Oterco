@@ -344,7 +344,7 @@ summary:focus-visible {
   margin-bottom: 0.5rem;
 }
 
-/* OT-Q023 — El bebedero vertical (O-IMG04, 485×650) se contiene en columna
+/* Bebedero vertical (485×650): composición contenida en columna
    de detalle: nunca a todo el ancho, nunca ampliado, máx ~560 px de alto.
    Regla de composición vigente aun sin fotos publicadas. */
 .detalle-vertical {
@@ -491,11 +491,11 @@ a[data-estado="pendienteAP"] {
   margin-bottom: 0.25rem;
 }
 
-/* OT-06 — Slots de imagen pendiente (FotoPendiente.astro).
- * Cada figure declara data-source/data-dims de la huella documental y
+/* Slots de imagen pendiente (FotoPendiente.astro).
+ * Cada figure declara data-dims (solo dimensiones) y
  * reserva proporción con aspect-ratio en línea: sin <img> no hay píxel
  * que ampliar ni recortar, solo reserva estructural accesible.
- * OT-Q022: dimensiones coherentes con FUENTES_ORIGINALES; la figura
+ * Dimensiones coherentes con la huella documental interna; la figura
  * nunca deforma su reserva (la futura foto usará object-fit contenido). */
 figure.foto-pendiente {
   margin-inline: 0;
@@ -506,7 +506,7 @@ figure.foto-pendiente figcaption {
   font-size: 0.85rem;
 }
 
-/* OT-06 (OT-Q023) — Bebedero vertical O-IMG04 (485×650): composición
+/* Bebedero vertical (485×650): composición
  * contenida y proporcional. La proporción 485 / 650 se declara aquí en
  * la ficha (además del aspect-ratio en línea del slot) con tope de
  * columna de detalle y alto máximo ~560 px: nunca a todo el ancho del
