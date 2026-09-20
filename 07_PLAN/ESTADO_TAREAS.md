@@ -10,7 +10,7 @@ El coordinador mantiene este registro; las fichas conservan sus criterios. Ningu
 | OT-04 | REALIZADA (prototipo fixture; visual pend. operador) | Commit tras ajustes A-D | docs/implementacion/OT-04/EVIDENCIA.md, DISENO.md | Operador: validación de diseño y comparación visual (OT-Q011/Q012 skips honestos); continúa OT-05 |
 | OT-05 | REALIZADA (navegación manual pend. operador) | Commit tras ajustes F1-F4 | docs/implementacion/OT-05/EVIDENCIA.md | OT-06 continúa; navegación real/teclado/capturas → OT-10/OT-14 |
 | OT-06 | REALIZADA (sin imágenes aprobadas aún) | Commit tras ajustes data-tratamiento | docs/implementacion/OT-06/EVIDENCIA.md | OT-07 preparador local; imágenes reales tras derivados/permisos (operador) |
-| OT-07 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
+| OT-07 | REALIZADA (deshabilitado; cableado tras OT-15) | Commit tras ajustes F1-F9 | docs/implementacion/OT-07/EVIDENCIA.md | E2E real en OT-10; activar módulo tras aprobación de contacto (OT-15) |
 | OT-08 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
 | OT-09 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
 | OT-10 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |

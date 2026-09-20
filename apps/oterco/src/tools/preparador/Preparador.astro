@@ -1,0 +1,245 @@
+---
+/**
+ * OT-07 — Presentación local del preparador de consulta.
+ *
+ * Utilidad 100 % local: categorías + generación de texto + mailto/copia.
+ * Sin envío automático, sin almacenamiento, sin red, sin API.
+ *
+ * - La decisión mailto/copia se deriva en build desde `perfilBase.contacto`
+ *   + `aprobaciones` (destino.ts). Hoy el contacto sigue pendienteAP
+ *   (OT-02/OT-15): se muestra el segmento «contacto pendiente de aprobación»
+ *   y el correo queda deshabilitado con el motivo en `title`.
+ * - El panel es una sección inline (no modal): el botón de activación es
+ *   `<button type="button">`, cerrable con Escape, sin atrapar el foco.
+ * - Render seguro: el borrador se asigna con `value`/`textContent`, nunca
+ *   con innerHTML (OT-Q027). Sin localStorage/sessionStorage/cookies/fetch/XHR.
+ * - `<noscript>`: sin JS se muestra el contacto disponible y un texto que el
+ *   usuario puede copiar a mano (OT-Q030/OT-Q034).
+ * - Este componente no incluye lógica ejecutable: importa en exclusiva el
+ *   cliente ligero (`activador.ts`, valor `UID_POR_DEFECTO`), que trae el
+ *   conector pesado (`cliente.ts`) con `import()` dinámico en el primer
+ *   click del botón de apertura (carga al abrir, no en carga de página).
+ *   La página, al habilitarse vía `index.ts` (hoy deshabilitado: dist
+ *   publica cero scripts del módulo, OT-Q032).
+ * - Dos instancias: todo id/estado/listener vive por `uid`; el conector monta
+ *   cada raíz una sola vez y expone desmontaje que limpia listeners.
+ */
+import { perfilBase } from "../../content/perfil.datos";
+import { UID_POR_DEFECTO } from "./activador";
+import { resolverDestino } from "./destino";
+import { CATALOGO_PREPARADOR, MENSAJE_MAX } from "./motor";
+import { PREPARADOR_ANCLA } from "./config";
+
+interface Props {
+  /** Identificador de instancia ([A-Za-z0-9_-]); independiza ids y estado. */
+  uid: string;
+}
+
+const crudo = Astro.props.uid ?? UID_POR_DEFECTO;
+const uid = /^[A-Za-z0-9_-]+$/.test(crudo) ? crudo : "a";
+const decision = resolverDestino(perfilBase.contacto, perfilBase.aprobaciones);
+const id = (sufijo: string) => `prep-${uid}-${sufijo}`;
+const correoDeshabilitado = decision.estado === "pendienteAP";
+const razonCorreo = correoDeshabilitado ? decision.razon : "";
+---
+
+<section
+  class="preparador"
+  id={uid === "a" ? PREPARADOR_ANCLA : `${PREPARADOR_ANCLA}-${uid}`}
+  data-preparador={uid}
+  data-estado={decision.estado}
+  data-correo={decision.estado === "aprobado" ? decision.email : undefined}
+  aria-labelledby={id("titulo")}
+>
+  <h2 id={id("titulo")}>Preparar consulta</h2>
+  <p class="preparador__ayuda">
+    Herramienta local: prepara el texto de su consulta para copiarlo o abrirlo
+    en su aplicación de correo. Nada se envía ni se guarda desde esta página.
+  </p>
+  <p class="preparador__destino" data-destino>
+    {
+      decision.estado === "aprobado" ? (
+        <span>
+          Destino verificado: <strong>{decision.email}</strong>
+        </span>
+      ) : (
+        <span data-estado="pendienteAP">
+          <strong>Contacto pendiente de aprobación</strong>:
+          solo copia manual (OT-07/OT-15).
+        </span>
+      )
+    }
+  </p>
+
+  <button
+    type="button"
+    class="boton boton--principal"
+    data-accion="abrir"
+    aria-expanded="false"
+    aria-controls={id("panel")}
+  >
+    Preparar consulta
+  </button>
+
+  <div id={id("panel")} data-panel hidden>
+    <fieldset data-grupo-tema>
+      <legend>Categoría (obligatoria)</legend>
+      {
+        CATALOGO_PREPARADOR.map((tema) => (
+          <label class="preparador__opcion">
+            <input type="radio" name={`tema-${uid}`} value={tema.id} />
+            {tema.etiqueta}
+          </label>
+        ))
+      }
+    </fieldset>
+
+    <label class="preparador__etiqueta" for={id("mensaje")}>
+      Mensaje opcional (máximo {MENSAJE_MAX} caracteres)
+    </label>
+    <!-- `maxlength` nativo cuenta unidades UTF-16 (un emoji = 2) y actúa
+      solo como prefiltro progresivo; el límite contractual (800 puntos de
+      código) lo aplica `motor.ts` con `Array.from`. Divergencia
+      documentada, no alineada a propósito (OT-Q026). -->
+    <textarea
+      id={id("mensaje")}
+      data-mensaje
+      rows="5"
+      maxlength={MENSAJE_MAX}
+      placeholder="Escriba aquí su mensaje (opcional)"
+    ></textarea>
+
+    <p class="preparador__error" data-error role="status" aria-live="polite"></p>
+
+    <div class="preparador__acciones">
+      <button type="button" class="boton boton--principal" data-accion="preparar">
+        Generar borrador
+      </button>
+      <button type="button" class="boton boton--secundario" data-accion="copiar">
+        Copiar texto
+      </button>
+      {
+        correoDeshabilitado ? (
+          <>
+            <button
+              type="button"
+              class="boton boton--secundario"
+              disabled
+              title={razonCorreo}
+              aria-describedby={id("motivo-correo")}
+              data-estado="pendienteAP"
+              data-accion="correo"
+            >
+              Abrir aplicación de correo
+            </button>
+            <p class="preparador__motivo" id={id("motivo-correo")}>
+              {razonCorreo}
+            </p>
+          </>
+        ) : (
+          <a class="boton boton--secundario" data-accion="correo" href={`#${PREPARADOR_ANCLA}`}>
+            Abrir aplicación de correo
+          </a>
+        )
+      }
+      <button type="button" class="boton boton--secundario" data-accion="limpiar">
+        Limpiar
+      </button>
+    </div>
+
+    <label class="preparador__etiqueta" for={id("salida")}>
+      Borrador listo para copiar
+    </label>
+    <textarea id={id("salida")} data-salida rows="8" readonly></textarea>
+    <p class="preparador__nota" data-nota aria-live="polite">
+      Al abrir el correo, la información pasa a esa aplicación y usted decide
+      enviarla. Abrir el correo no confirma ningún envío.
+    </p>
+  </div>
+
+  <noscript>
+    <div class="preparador__sinjs">
+      <p>
+        Sin JavaScript, esta herramienta no puede generar el borrador ni abrir
+        su correo automáticamente.
+        {
+          decision.estado === "aprobado" ? (
+            <span>
+              Puede escribir a <strong>{decision.email}</strong> desde su
+              aplicación de correo.
+            </span>
+          ) : (
+            <span>
+              <strong>Contacto pendiente de aprobación</strong> (OT-07/OT-15):
+              aún no hay buzón publicado.
+            </span>
+          )
+        }
+      </p>
+      <p>
+        Copie a mano este modelo: «Deseo consultar sobre [línea de
+        portafolio]» + su mensaje. Borrador de consulta, no cotización ni
+        confirmación de disponibilidad.
+      </p>
+    </div>
+  </noscript>
+</section>
+
+
+
+<style>
+  .preparador {
+    border-top: 2px solid currentColor;
+    padding-block: 1.5rem;
+  }
+  .preparador__ayuda,
+  .preparador__nota {
+    max-width: 60ch;
+  }
+  .preparador__destino {
+    max-width: 60ch;
+  }
+  .preparador fieldset {
+    border: 1px solid currentColor;
+    margin-block: 1rem;
+    max-width: 60ch;
+  }
+  .preparador__opcion {
+    display: block;
+    padding-block: 0.375rem;
+  }
+  .preparador__etiqueta {
+    display: block;
+    font-weight: 700;
+    margin-block: 1rem 0.5rem;
+  }
+  .preparador textarea {
+    display: block;
+    max-width: 60ch;
+    width: 100%;
+  }
+  .preparador__error {
+    font-weight: 700;
+    min-height: 1.5em;
+  }
+  .preparador__error:empty {
+    display: none;
+  }
+  .preparador__motivo {
+    flex-basis: 100%;
+    margin: 0;
+    max-width: 60ch;
+  }
+  .preparador__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-block: 1rem;
+  }
+  .preparador__sinjs {
+    border: 1px dashed currentColor;
+    margin-top: 1rem;
+    max-width: 60ch;
+    padding: 1rem;
+  }
+</style>
