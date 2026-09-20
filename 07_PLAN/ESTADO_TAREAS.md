@@ -13,7 +13,7 @@ El coordinador mantiene este registro; las fichas conservan sus criterios. Ningu
 | OT-07 | REALIZADA (deshabilitado; cableado tras OT-15) | Commit tras ajustes F1-F9 | docs/implementacion/OT-07/EVIDENCIA.md | E2E real en OT-10; activar módulo tras aprobación de contacto (OT-15) |
 | OT-08 | REALIZADA (hostname/HTTPS remotos → OT-16) | Commit tras ajustes F1-F8 | docs/implementacion/OT-08/EVIDENCIA.md | Humo remoto en destino Free (OT-16); datos comerciales conlan cablean tras OT-15 |
 | OT-09 | REALIZADA (E2E navegador real → OT-10) | Commit tras ajustes H1-H4 | docs/implementacion/OT-09/REPORTE.md | Ajuste de §1 del reporte documentado; continúa OT-10 |
-| OT-10 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
+| OT-10 | REALIZADA-parcial (visión/lector/axe pend. operador) | Commit tras ajustes F1+cosmético+F4+F3 | docs/implementacion/OT-10/INFORME.md, EVIDENCIA.md | Operador ejecuta §5 del INFORME (viewports/teclado/lector/axe/capturas) y se archiva la evidencia visual |
 | OT-11 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
 | OT-12 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
 | OT-13 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
