@@ -17,7 +17,7 @@ El coordinador mantiene este registro; las fichas conservan sus criterios. Ningu
 | OT-11 | REALIZADA-parcial (Lighthouse pend. operador/OT-16) | Commit tras externalización R1 vía (c) | docs/implementacion/OT-11/EVIDENCIA.md, scripts/medir.mjs | Operador: Lighthouse ×3 móvil (§6) y re-medición al añadir fuentes/fotos/preparador |
 | OT-12 | REALIZADA (candidato local; CI remota documental) | Commit tras ajustes H-1..H-8 | docs/implementacion/OT-12/EVIDENCIA.md, PIPELINE_DRAFT.md | Operador: materializar workflow (Q046), aprobar destino/hostname (OT-15/16) |
 | OT-13 | REALIZADA (práctica de edición pend. operador) | Commit tras RUNBOOK + test recuperación | docs/implementacion/OT-13/RUNBOOK.md, EVIDENCIA.md | Operador: práctica Q048 (RUNBOOK §6); recuperación remota/DNS/buzón quedan fuera |
-| OT-14 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
+| OT-14 | REALIZADA-parcial (Q012/Q048/Q052 pend. operador) | Commit tras ajustes F1-F7 | docs/implementacion/OT-14/CIERRE.md, DIFERENCIAS_PA.md, BLOQUEOS_EXTERNO.md | Entrega técnica HTML: sigue OT-15 (aprobaciones datos/activos/cuentas) — permiso explícito del operador |
 | OT-15 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
 | OT-16 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
 | OT-17 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
