@@ -22,3 +22,7 @@ apps/oterco/src/assets/derivados/
 *.pem
 *.key
 .dev.vars
+
+# OT-12 — Candidatos y promociones locales: artefactos no publicados,
+# nunca en commit (el manifiesto de ejemplo vive en docs/implementacion/OT-12)
+apps/oterco/releases/

@@ -10,7 +10,10 @@
     "preview": "astro preview",
     "check": "astro check",
     "test": "node --test tests/",
-    "recursos:derivados": "node scripts/generar-derivados.mjs .private-references/oterco-originales"
+    "recursos:derivados": "node scripts/generar-derivados.mjs .private-references/oterco-originales",
+    "release:prepare": "node scripts/release/candidato.mjs",
+    "release:verify": "node scripts/release/verificar.mjs --candidato",
+    "release:promote:local": "node scripts/release/promocionar.mjs --candidato"
   },
   "dependencies": {
     "astro": "5.15.9"

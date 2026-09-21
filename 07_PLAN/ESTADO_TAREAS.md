@@ -15,7 +15,7 @@ El coordinador mantiene este registro; las fichas conservan sus criterios. Ningu
 | OT-09 | REALIZADA (E2E navegador real → OT-10) | Commit tras ajustes H1-H4 | docs/implementacion/OT-09/REPORTE.md | Ajuste de §1 del reporte documentado; continúa OT-10 |
 | OT-10 | REALIZADA-parcial (visión/lector/axe pend. operador) | Commit tras ajustes F1+cosmético+F4+F3 | docs/implementacion/OT-10/INFORME.md, EVIDENCIA.md | Operador ejecuta §5 del INFORME (viewports/teclado/lector/axe/capturas) y se archiva la evidencia visual |
 | OT-11 | REALIZADA-parcial (Lighthouse pend. operador/OT-16) | Commit tras externalización R1 vía (c) | docs/implementacion/OT-11/EVIDENCIA.md, scripts/medir.mjs | Operador: Lighthouse ×3 móvil (§6) y re-medición al añadir fuentes/fotos/preparador |
-| OT-12 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
+| OT-12 | REALIZADA (candidato local; CI remota documental) | Commit tras ajustes H-1..H-8 | docs/implementacion/OT-12/EVIDENCIA.md, PIPELINE_DRAFT.md | Operador: materializar workflow (Q046), aprobar destino/hostname (OT-15/16) |
 | OT-13 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
 | OT-14 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
 | OT-15 | PENDIENTE | — | No ejecutada | Revisar dependencias de la ficha |
